@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
-@Table(name = "`AccumulatedTransaction`")
+@Table(name = "`accumulatedTransaction`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,18 +23,19 @@ public class AccumulatedTransaction {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private String source;
 
-    private int availableQuantity;
+    private int productQuantity;
 
     private int accumulatedPoints;
 
     private ZonedDateTime timestamp;
 
-    @OneToOne(mappedBy = "accumulatedTransaction")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     private Invoice invoice;
 
     @PrePersist

@@ -8,11 +8,12 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Data
-@Table(name = "`User`")
+@Table(name = "`user`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,9 +24,16 @@ public class User {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
-    private String name;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roleCollection;
 
-    private String role;
+    private String name;
 
     private String lastName;
 
@@ -37,7 +45,11 @@ public class User {
 
     private String phoneNumber;
 
-    private String emailAddress;
+    private String email;
+
+    private String password;
+
+    private boolean enabled;
 
     @OneToMany(mappedBy = "user")
     private List<AccumulatedTransaction>  accumulatedTransactionList;

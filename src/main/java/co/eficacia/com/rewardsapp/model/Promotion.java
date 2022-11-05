@@ -13,7 +13,7 @@ import java.util.UUID;
 
 
 @Data
-@Table(name = "`Promotion`")
+@Table(name = "`promotion`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -24,9 +24,10 @@ public class Promotion {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
-    private String name;
+    @ManyToMany(mappedBy = "promotionList")
+    private List<Invoice> invoiceList;
 
-    private List<String> codeList;
+    private String name;
 
     private String content;
 
@@ -35,9 +36,6 @@ public class Promotion {
     private int offeredPoints;
 
     private ZonedDateTime validityDate;
-
-    @OneToMany(mappedBy = "Promotion")
-    private List<Invoice_Promotion> invoice_promotionList;
 
     @PrePersist
     public void generateId(){

@@ -1,9 +1,8 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PublicationErrorCode;
-import co.eficacia.com.rewardsapp.error.exception.EntityError;
+import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.mapper.PublicationMapper;
 import co.eficacia.com.rewardsapp.model.Publication;
 import co.eficacia.com.rewardsapp.repository.PublicationRepository;
 import co.eficacia.com.rewardsapp.service.PublicationService;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 public class PublicationServiceImpl implements PublicationService {
 
     private final PublicationRepository publicationRepository;
-    private final PublicationMapper publicationMapper;
 
     @Override
     public Publication createPublication(Publication publication) {
@@ -34,7 +32,7 @@ public class PublicationServiceImpl implements PublicationService {
         Optional<Publication> optionalPublication = publicationRepository.findById(id);
         if(optionalPublication.isPresent())
             return optionalPublication.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class PublicationServiceImpl implements PublicationService {
         Optional<Publication> optionalPublication = publicationRepository.findById(publication.getId());
         if(optionalPublication.isPresent())
             return publicationRepository.save(publication);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -57,6 +55,6 @@ public class PublicationServiceImpl implements PublicationService {
             publicationRepository.delete(optionalPublication.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 }

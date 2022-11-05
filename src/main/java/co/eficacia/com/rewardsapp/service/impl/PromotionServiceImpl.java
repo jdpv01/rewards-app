@@ -1,9 +1,8 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PromotionErrorCode;
-import co.eficacia.com.rewardsapp.error.exception.EntityError;
+import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.mapper.PromotionMapper;
 import co.eficacia.com.rewardsapp.model.Promotion;
 import co.eficacia.com.rewardsapp.repository.PromotionRepository;
 import co.eficacia.com.rewardsapp.service.PromotionService;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 public class PromotionServiceImpl implements PromotionService {
 
     private final PromotionRepository promotionRepository;
-    private final PromotionMapper promotionMapper;
 
     @Override
     public Promotion createPromotion(Promotion promotion) {
@@ -34,7 +32,7 @@ public class PromotionServiceImpl implements PromotionService {
         Optional<Promotion> optionalPromotion = promotionRepository.findById(id);
         if(optionalPromotion.isPresent())
             return optionalPromotion.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class PromotionServiceImpl implements PromotionService {
         Optional<Promotion> optionalPromotion = promotionRepository.findById(promotion.getId());
         if(optionalPromotion.isPresent())
             return promotionRepository.save(promotion);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -57,6 +55,6 @@ public class PromotionServiceImpl implements PromotionService {
             promotionRepository.delete(optionalPromotion.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 }

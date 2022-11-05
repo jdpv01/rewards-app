@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Table(name = "`Publication`")
+@Table(name = "`publication`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -26,6 +26,8 @@ public class Publication {
     private String image;
 
     private String title;
+
+    private String link;
 
     private String description;
 

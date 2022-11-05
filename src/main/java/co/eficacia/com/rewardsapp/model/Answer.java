@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Data
-@Table(name = "`Answer`")
+@Table(name = "`answer`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -22,11 +22,11 @@ public class Answer {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     private String content;

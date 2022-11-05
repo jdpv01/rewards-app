@@ -9,5 +9,5 @@ public enum SurveyErrorCode {
 
     CODE_01("Survey not found");
 
-    private String message;
+    private final String message;
 }

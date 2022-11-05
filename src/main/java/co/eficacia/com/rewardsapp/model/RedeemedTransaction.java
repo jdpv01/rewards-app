@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
-@Table(name = "`RedeemedTransaction`")
+@Table(name = "`redeemedTransaction`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,11 +23,11 @@ public class RedeemedTransaction {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "reward_id", nullable = false)
     private Reward reward;
 
     private String source;

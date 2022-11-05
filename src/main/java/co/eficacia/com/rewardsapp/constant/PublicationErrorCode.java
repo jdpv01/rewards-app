@@ -9,5 +9,5 @@ public enum PublicationErrorCode {
 
     CODE_01("Publication not found");
 
-    private String message;
+    private final String message;
 }

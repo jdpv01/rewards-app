@@ -18,7 +18,7 @@ public interface SurveyAPI {
     @GetMapping("/get-all-surveys")
     List<SurveyDTO> getSurveys();
 
-    @PostMapping("/update-survey/{id}")
+    @PutMapping("/update-survey/{id}")
     SurveyDTO updateSurvey(@PathVariable UUID id, @RequestBody SurveyDTO surveyDTO);
 
     @DeleteMapping("/delete-survey/{id}")

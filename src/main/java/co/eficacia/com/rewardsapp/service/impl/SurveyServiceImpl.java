@@ -1,9 +1,8 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.SurveyErrorCode;
-import co.eficacia.com.rewardsapp.error.exception.EntityError;
+import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.mapper.SurveyMapper;
 import co.eficacia.com.rewardsapp.model.Survey;
 import co.eficacia.com.rewardsapp.repository.SurveyRepository;
 import co.eficacia.com.rewardsapp.service.SurveyService;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 public class SurveyServiceImpl implements SurveyService {
 
     private final SurveyRepository surveyRepository;
-    private final SurveyMapper surveyMapper;
 
     @Override
     public Survey createSurvey(Survey survey) {
@@ -34,7 +32,7 @@ public class SurveyServiceImpl implements SurveyService {
         Optional<Survey> optionalSurvey = surveyRepository.findById(id);
         if(optionalSurvey.isPresent())
             return optionalSurvey.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class SurveyServiceImpl implements SurveyService {
         Optional<Survey> optionalSurvey = surveyRepository.findById(survey.getId());
         if(optionalSurvey.isPresent())
             return surveyRepository.save(survey);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -57,6 +55,6 @@ public class SurveyServiceImpl implements SurveyService {
             surveyRepository.delete(optionalSurvey.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 }

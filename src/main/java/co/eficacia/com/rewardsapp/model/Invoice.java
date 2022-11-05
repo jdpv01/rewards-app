@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Table(name = "`Invoice`")
+@Table(name = "`invoice`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,12 +23,19 @@ public class Invoice {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+
+    @ManyToMany
+    @JoinTable(
+            name = "promotion_invoice",
+            joinColumns = @JoinColumn(name = "promotion_id"),
+            inverseJoinColumns = @JoinColumn(name = "invoice_id"))
+    private List<Promotion> promotionList;
 
     private String image;
 
@@ -38,9 +45,6 @@ public class Invoice {
 
     @OneToOne(mappedBy = "invoice")
     private AccumulatedTransaction accumulatedTransaction;
-
-    @OneToMany(mappedBy = "invoice")
-    private List<Invoice_Promotion> invoice_promotionList;
 
     @PrePersist
     public void generateId(){

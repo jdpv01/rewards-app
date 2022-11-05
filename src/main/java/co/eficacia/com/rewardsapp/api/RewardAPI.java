@@ -18,7 +18,7 @@ public interface RewardAPI {
     @GetMapping("/get-all-rewards")
     List<RewardDTO> getRewards();
 
-    @PostMapping("/update-reward/{id}")
+    @PutMapping("/update-reward/{id}")
     RewardDTO updateReward(@PathVariable UUID id, @RequestBody RewardDTO rewardDTO);
 
     @DeleteMapping("/delete-reward/{id}")

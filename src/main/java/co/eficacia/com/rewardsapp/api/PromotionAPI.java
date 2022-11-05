@@ -18,7 +18,7 @@ public interface PromotionAPI {
     @GetMapping("/get-all-promotions")
     List<PromotionDTO> getPromotions();
 
-    @PostMapping("/update-promotion/{id}")
+    @PutMapping("/update-promotion/{id}")
     PromotionDTO updatePromotion(@PathVariable UUID id, @RequestBody PromotionDTO promotionDTO);
 
     @DeleteMapping("/delete-promotion/{id}")

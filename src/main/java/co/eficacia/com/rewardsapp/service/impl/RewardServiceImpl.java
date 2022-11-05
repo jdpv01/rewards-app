@@ -1,9 +1,8 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.RewardErrorCode;
-import co.eficacia.com.rewardsapp.error.exception.EntityError;
+import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.mapper.RewardMapper;
 import co.eficacia.com.rewardsapp.model.Reward;
 import co.eficacia.com.rewardsapp.repository.RewardRepository;
 import co.eficacia.com.rewardsapp.service.RewardService;
@@ -22,7 +21,6 @@ import java.util.stream.StreamSupport;
 public class RewardServiceImpl implements RewardService {
 
     private final RewardRepository rewardRepository;
-    private final RewardMapper rewardMapper;
 
     @Override
     public Reward createReward(Reward reward) {
@@ -34,7 +32,7 @@ public class RewardServiceImpl implements RewardService {
         Optional<Reward> optionalReward = rewardRepository.findById(id);
         if(optionalReward.isPresent())
             return optionalReward.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class RewardServiceImpl implements RewardService {
         Optional<Reward> optionalReward = rewardRepository.findById(reward.getId());
         if(optionalReward.isPresent())
             return rewardRepository.save(reward);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -57,6 +55,6 @@ public class RewardServiceImpl implements RewardService {
             rewardRepository.delete(optionalReward.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new EntityError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 }

@@ -8,15 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SurveyDTO {
-
-    private UUID id;
 
     private String title;
 

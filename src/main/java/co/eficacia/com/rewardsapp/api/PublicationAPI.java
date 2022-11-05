@@ -18,7 +18,7 @@ public interface PublicationAPI {
     @GetMapping("/get-all-publications")
     List<PublicationDTO> getPublications();
 
-    @PostMapping("/update-publication/{id}")
+    @PutMapping("/update-publication/{id}")
     PublicationDTO updatePublication(@PathVariable UUID id, @RequestBody PublicationDTO publicationDTO);
 
     @DeleteMapping("/delete-publication/{id}")

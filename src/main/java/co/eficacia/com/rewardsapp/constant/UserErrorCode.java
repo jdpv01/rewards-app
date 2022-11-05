@@ -9,5 +9,5 @@ public enum UserErrorCode {
 
     CODE_01("User not found");
 
-    private String message;
+    private final String message;
 }

@@ -9,5 +9,5 @@ public enum RewardErrorCode {
 
     CODE_01("Reward not found");
 
-    private String message;
+    private final String message;
 }

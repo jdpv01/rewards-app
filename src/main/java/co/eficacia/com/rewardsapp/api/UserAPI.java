@@ -18,7 +18,7 @@ public interface UserAPI {
     @GetMapping("/get-all-users")
     List<UserDTO> getUsers();
 
-    @PostMapping("/update-user/{id}")
+    @PutMapping("/update-user/{id}")
     UserDTO updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO);
 
     @DeleteMapping("/delete-user/{id}")

@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
-@Table(name = "`Comment`")
+@Table(name = "`comment`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,11 +23,11 @@ public class Comment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "publication_id", nullable = false)
     private Publication publication;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private String content;

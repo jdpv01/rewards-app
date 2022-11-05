@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Table(name = "`Question`")
+@Table(name = "`question`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,14 +23,15 @@ public class Question {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 
     private String content;
 
     private String type;
 
-    @OneToOne(mappedBy = "question")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "multiple_choice_id", referencedColumnName = "id")
     private MultipleChoice multipleChoice;
 
     @OneToMany(mappedBy = "question")

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -16,11 +15,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserDTO {
 
-    private UUID id;
+    private String role;
 
     private String name;
-
-    private String role;
 
     private String lastName;
 
@@ -32,7 +29,11 @@ public class UserDTO {
 
     private String phoneNumber;
 
-    private String emailAddress;
+    private String email;
+
+    private String password;
+
+    private String matchingPassword;
 
     private List<AccumulatedTransaction> accumulatedTransactionList;
 

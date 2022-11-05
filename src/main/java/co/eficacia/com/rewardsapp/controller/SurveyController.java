@@ -19,8 +19,8 @@ public class SurveyController implements SurveyAPI {
     private final SurveyMapper surveyMapper;
 
     @Override
-    public SurveyDTO createSurvey(SurveyDTO SurveyDTO) {
-        return surveyMapper.fromSurvey(surveyService.createSurvey(surveyMapper.fromSurveyDTO(SurveyDTO)));
+    public SurveyDTO createSurvey(SurveyDTO surveyDTO) {
+        return surveyMapper.fromSurvey(surveyService.createSurvey(surveyMapper.fromSurveyDTO(surveyDTO)));
     }
 
     @Override

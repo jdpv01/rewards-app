@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Data
-@Table(name = "`MultipleChoice`")
+@Table(name = "`multipleChoice`")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class MultipleChoice {
 
     private String choice4;
 
-    @OneToOne(mappedBy = "MultipleChoice")
+    @OneToOne(mappedBy = "multipleChoice")
     private Question question;
 
     @PrePersist

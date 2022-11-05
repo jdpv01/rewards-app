@@ -9,5 +9,5 @@ public enum PromotionErrorCode {
 
     CODE_01("Promotion not found");
 
-    private String message;
+    private final String message;
 }

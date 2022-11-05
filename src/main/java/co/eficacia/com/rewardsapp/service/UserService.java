@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.service;
 
+import co.eficacia.com.rewardsapp.dto.UserAccountDTO;
 import co.eficacia.com.rewardsapp.model.User;
 
 import java.util.List;

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -16,11 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PublicationDTO {
 
-    private UUID id;
-
     private String image;
 
     private String title;
+
+    private String link;
 
     private String description;
 

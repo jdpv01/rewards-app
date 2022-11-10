@@ -53,6 +53,8 @@ public class User {
 
     private int currentPoint;
 
+    private int redeemedPoints;
+
     @OneToMany(mappedBy = "user")
     private List<AccumulatedTransaction>  accumulatedTransactionList;
 

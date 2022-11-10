@@ -3,10 +3,12 @@ package co.eficacia.com.rewardsapp.service.impl;
 import co.eficacia.com.rewardsapp.constant.RedeemedTransactionErrorCode;
 import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.model.User;
 import co.eficacia.com.rewardsapp.repository.RedeemedTransactionRepository;
 import co.eficacia.com.rewardsapp.model.RedeemedTransaction;
 
 import co.eficacia.com.rewardsapp.service.RedeemedTransactionService;
+import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
 
     private final RedeemedTransactionRepository redeemedTransactionRepository;
 
+    private UserService userService;
+
     @Override
     public RedeemedTransaction createRedeemedTransaction(RedeemedTransaction redeemedTransaction) {
         return redeemedTransactionRepository.save(redeemedTransaction);
@@ -31,7 +35,7 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
     @Override
     public RedeemedTransaction getRedeemedTransaction(UUID id) {
         Optional<RedeemedTransaction> optionalRedeemedTransaction = redeemedTransactionRepository.findById(id);
-        if(optionalRedeemedTransaction.isPresent())
+        if (optionalRedeemedTransaction.isPresent())
             return optionalRedeemedTransaction.get();
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RedeemedTransactionErrorCode.CODE_01, RedeemedTransactionErrorCode.CODE_01.getMessage()));
     }
@@ -44,7 +48,7 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
     @Override
     public RedeemedTransaction updateRedeemedTransaction(RedeemedTransaction redeemedTransaction) {
         Optional<RedeemedTransaction> optionalRedeemedTransaction = redeemedTransactionRepository.findById(redeemedTransaction.getId());
-        if(optionalRedeemedTransaction.isPresent())
+        if (optionalRedeemedTransaction.isPresent())
             return redeemedTransactionRepository.save(redeemedTransaction);
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RedeemedTransactionErrorCode.CODE_01, RedeemedTransactionErrorCode.CODE_01.getMessage()));
     }
@@ -52,11 +56,24 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
     @Override
     public boolean deleteRedeemedTransaction(UUID id) {
         Optional<RedeemedTransaction> optionalRedeemedTransaction = redeemedTransactionRepository.findById(id);
-        if(optionalRedeemedTransaction.isPresent()) {
+        if (optionalRedeemedTransaction.isPresent()) {
             redeemedTransactionRepository.delete(optionalRedeemedTransaction.get());
             return true;
         }
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RedeemedTransactionErrorCode.CODE_01, RedeemedTransactionErrorCode.CODE_01.getMessage()));
+    }
+
+    @Override
+    public Integer redeemedCurrentPointsUser(User user) {
+        List<RedeemedTransaction> transactions = StreamSupport.stream(redeemedTransactionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        for (RedeemedTransaction transactionA : transactions) {
+            if (transactionA.getUser().getId() == user.getId()) {
+                user.setRedeemedPoints(user.getRedeemedPoints() + transactionA.getRedeemedPoints());
+            }
+        }
+        userService.updateUser(user);
+
+        return user.getCurrentPoint();
     }
 
 }

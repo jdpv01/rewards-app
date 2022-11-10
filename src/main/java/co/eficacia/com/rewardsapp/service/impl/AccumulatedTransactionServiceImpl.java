@@ -4,8 +4,10 @@ import co.eficacia.com.rewardsapp.constant.AccumulatedTransactionErrorCode;
 import co.eficacia.com.rewardsapp.error.ObjectError;
 import co.eficacia.com.rewardsapp.error.exception.GlobalException;
 import co.eficacia.com.rewardsapp.model.AccumulatedTransaction;
+import co.eficacia.com.rewardsapp.model.User;
 import co.eficacia.com.rewardsapp.repository.AccumulatedTransactionRepository;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
+import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.stream.StreamSupport;
 public class AccumulatedTransactionServiceImpl implements AccumulatedTransactionService{
 
     private final AccumulatedTransactionRepository AccumulatedTransactionRepository;
+
+    private UserService userService;
 
     @Override
     public AccumulatedTransaction createAccumulatedTransaction(AccumulatedTransaction accumulatedTransaction) {
@@ -58,8 +62,17 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(AccumulatedTransactionErrorCode.CODE_01, AccumulatedTransactionErrorCode.CODE_01.getMessage()));
     }
 
-    public punto sumarpuntosusuario(){
-
+    @Override
+    public Integer currentUserPoint(User user) {
+        List<AccumulatedTransaction> transactions = StreamSupport.stream(AccumulatedTransactionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        for (AccumulatedTransaction transactionA : transactions) {
+            if (transactionA.getUser().getId() == user.getId()) {
+                user.setCurrentPoint(user.getCurrentPoint() + transactionA.getAccumulatedPoints());
+            }
+        }
+        userService.updateUser(user);
+        return user.getCurrentPoint();
     }
+
 
 }

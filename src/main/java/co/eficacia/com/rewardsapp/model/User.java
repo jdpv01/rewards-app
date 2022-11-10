@@ -51,6 +51,8 @@ public class User {
 
     private boolean enabled;
 
+    private int currentPoint;
+
     @OneToMany(mappedBy = "user")
     private List<AccumulatedTransaction>  accumulatedTransactionList;
 

@@ -7,37 +7,30 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-
 @Data
-@Table(name = "`promotion`")
+@Table(name = "`invoicePromotion`")
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Promotion {
+public class InvoicePromotion {
 
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
-    @OneToMany(mappedBy = "Promotion")
-    private List<InvoicePromotion>  invoicePromotionList;
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private  Invoice invoice;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "promotion_id", nullable = false)
+    private Promotion promotion;
 
-    private String content;
-
-    private String image;
-
-    private int offeredPoints;
-
-    private int quantityPromotions;
-
-    private ZonedDateTime validityDate;
+    private int quantity;
 
     @PrePersist
     public void generateId(){

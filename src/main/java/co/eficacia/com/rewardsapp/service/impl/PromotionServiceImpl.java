@@ -57,4 +57,8 @@ public class PromotionServiceImpl implements PromotionService {
         }
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
+
+    public list<Promotion> searchPromotion() {
+        return promotionRepository.findAll();
+    }
 }

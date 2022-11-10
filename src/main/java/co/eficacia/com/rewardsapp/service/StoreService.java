@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.service;
 
-import co.eficacia.com.rewardsapp.model.Store;
+import co.eficacia.com.rewardsapp.persistance.model.Store;
 
 import java.util.List;
 import java.util.UUID;

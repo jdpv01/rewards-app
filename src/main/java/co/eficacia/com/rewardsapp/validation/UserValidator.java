@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.validation;
 
-import co.eficacia.com.rewardsapp.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

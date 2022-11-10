@@ -1,10 +1,10 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PublicationErrorCode;
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.model.Publication;
-import co.eficacia.com.rewardsapp.repository.PublicationRepository;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.model.Publication;
+import co.eficacia.com.rewardsapp.persistance.repository.PublicationRepository;
 import co.eficacia.com.rewardsapp.service.PublicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

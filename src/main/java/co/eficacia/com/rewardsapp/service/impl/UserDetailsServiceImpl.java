@@ -1,10 +1,10 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
-import co.eficacia.com.rewardsapp.model.Privilege;
-import co.eficacia.com.rewardsapp.model.Role;
-import co.eficacia.com.rewardsapp.model.User;
-import co.eficacia.com.rewardsapp.repository.RoleRepository;
-import co.eficacia.com.rewardsapp.repository.UserRepository;
+import co.eficacia.com.rewardsapp.persistance.model.Privilege;
+import co.eficacia.com.rewardsapp.persistance.model.Role;
+import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.persistance.repository.RoleRepository;
+import co.eficacia.com.rewardsapp.persistance.repository.UserRepository;
 import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

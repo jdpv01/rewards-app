@@ -1,1 +1,1 @@
-INSERT INTO "user" (id, name, last_name, gender, birth_date, subscribed, phone_number, email, password, enabled) VALUES ('d7c2632f-f6e2-4b85-bd4e-afc51f8a8e0c', 'David', 'Male', 'Peláez', '1999-12-21', 'true', '+573164518508', 'juandpv01@hotmail.com', 'passworD1!', true)
+INSERT INTO "user" (id, first_name, last_name, gender, birth_date, subscribed, phone_number, email, password, enabled) VALUES ('d7c2632f-f6e2-4b85-bd4e-afc51f8a8e0c', 'David', 'Male', 'Peláez', '1999-12-21', 'true', '+573164518508', 'juandpv01@hotmail.com', 'passworD1!', true)

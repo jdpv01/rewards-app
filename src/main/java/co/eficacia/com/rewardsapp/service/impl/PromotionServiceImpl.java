@@ -1,10 +1,10 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PromotionErrorCode;
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.model.Promotion;
-import co.eficacia.com.rewardsapp.repository.PromotionRepository;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.model.Promotion;
+import co.eficacia.com.rewardsapp.persistance.repository.PromotionRepository;
 import co.eficacia.com.rewardsapp.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

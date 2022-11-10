@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.validation;
 
-import co.eficacia.com.rewardsapp.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

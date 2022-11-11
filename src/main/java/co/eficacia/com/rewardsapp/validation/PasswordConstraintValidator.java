@@ -1,7 +1,8 @@
 package co.eficacia.com.rewardsapp.validation;
 
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.CustomValidationException;
+import co.eficacia.com.rewardsapp.constant.RegistrationErrorCode;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomValidationException;
 import lombok.SneakyThrows;
 import org.passay.*;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<CustomAn
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
-        throw new CustomValidationException(HttpStatus.BAD_REQUEST, new ObjectError(messages, messageTemplate));
+        throw new CustomValidationException(HttpStatus.BAD_REQUEST, new ObjectError(RegistrationErrorCode.CODE_01, messageTemplate));
     }
 }

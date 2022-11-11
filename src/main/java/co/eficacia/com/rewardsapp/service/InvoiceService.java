@@ -1,6 +1,8 @@
 package co.eficacia.com.rewardsapp.service;
 
-import co.eficacia.com.rewardsapp.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +19,9 @@ public interface InvoiceService {
 
     boolean deleteInvoice(UUID id);
 
-    void approvedTransactions(Invoice invoice);
+    Invoice approvedTransaction(Invoice invoice);
 
-    void noApprovedTransactions(Invoice invoice);
+    Invoice noApprovedTransactions(Invoice invoice);
+
+    Integer currentPendingPointsUser(UserDTO userDTO);
 }

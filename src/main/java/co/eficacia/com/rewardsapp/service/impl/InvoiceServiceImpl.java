@@ -1,10 +1,12 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.InvoiceErrorCode;
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.model.*;
-import co.eficacia.com.rewardsapp.repository.InvoiceRepository;
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
+import co.eficacia.com.rewardsapp.persistance.model.*;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.repository.InvoiceRepository;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.service.InvoiceService;
 import co.eficacia.com.rewardsapp.service.PromotionService;
@@ -26,6 +28,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final AccumulatedTransactionService accumulatedTransactionService;
 
     private final PromotionService promotionService;
+
+    private final UserMapper userMapper;
 
     private UserService userService;
 
@@ -74,19 +78,17 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void approvedTransactions(Invoice invoice) {
+    public Invoice approvedTransaction(Invoice invoice) {
 
         invoice.setState(invoice.APPROVED);
 
-        List<InvoicePromotion> listPromotion = invoice.getInvoicePromotionList();
+        List<Promotion> listPromotion = invoice.getPromotionList();
 
-        for (InvoicePromotion invoicePromotion : listPromotion) {
+        for (Promotion promotion : listPromotion) {
 
-            Promotion promotion = invoicePromotion.getPromotion();
+            if (promotion.getQuantityPromotions() > 0 ) {
 
-            if (invoicePromotion.getQuantity() <= promotion.getQuantityPromotions()) {
-
-                promotion.setQuantityPromotions(promotion.getQuantityPromotions() - invoicePromotion.getQuantity());
+                promotion.setQuantityPromotions(promotion.getQuantityPromotions() - 1);
 
                 AccumulatedTransaction transaction = new AccumulatedTransaction();
 
@@ -96,7 +98,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
                 transaction.setAccumulatedPoints(promotion.getOfferedPoints());
 
-                transaction.setProductQuantity(invoicePromotion.getQuantity());
+                transaction.setProductQuantity(1);
 
                 transaction.setUser(invoice.getUser());
 
@@ -106,23 +108,27 @@ public class InvoiceServiceImpl implements InvoiceService {
 
                 promotionService.updatePromotion(promotion);
             }
-
         }
 
         invoiceRepository.save(invoice);
 
+        return invoice;
     }
 
     @Override
-    public void noApprovedTransactions(Invoice invoice) {
+    public Invoice noApprovedTransactions(Invoice invoice) {
 
         invoice.setState(invoice.NOT_APPROVED);
 
         invoiceRepository.save(invoice);
 
+        return invoice;
     }
 
-    public Integer currentPendingPointsUser(User user) {
+    @Override
+    public Integer currentPendingPointsUser(UserDTO userDTO) {
+
+        User user = userMapper.fromUserDTO(userDTO);
 
         List<Invoice> invoices = StreamSupport.stream(invoiceRepository.findAll().spliterator(), false).collect(Collectors.toList());
 
@@ -130,11 +136,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
             if (invoice.getState().equals(invoice.PENDING) && invoice.getUser().getId() == user.getId()) {
 
-                List<InvoicePromotion> listPromotion = invoice.getInvoicePromotionList();
+                List<Promotion> listPromotion = invoice.getPromotionList();
 
-                for (InvoicePromotion invoicePromotion : listPromotion) {
-
-                    Promotion promotion = invoicePromotion.getPromotion();
+                for (Promotion promotion : listPromotion) {
 
                     user.setPendingPoint(user.getPendingPoint() + promotion.getOfferedPoints());
 

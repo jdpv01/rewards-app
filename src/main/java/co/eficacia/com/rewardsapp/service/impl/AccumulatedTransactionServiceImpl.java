@@ -1,13 +1,15 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.AccumulatedTransactionErrorCode;
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.model.AccumulatedTransaction;
-import co.eficacia.com.rewardsapp.model.User;
-import co.eficacia.com.rewardsapp.repository.AccumulatedTransactionRepository;
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.model.AccumulatedTransaction;
+import co.eficacia.com.rewardsapp.persistance.repository.AccumulatedTransactionRepository;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.service.UserService;
+import co.eficacia.com.rewardsapp.persistance.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
 
     private final AccumulatedTransactionRepository AccumulatedTransactionRepository;
 
+    private final UserMapper userMapper;
     private UserService userService;
 
     @Override
@@ -63,7 +66,8 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
     }
 
     @Override
-    public Integer currentUserPoint(User user) {
+    public Integer currentUserPoint(UserDTO userDTO) {
+        User user = userMapper.fromUserDTO(userDTO);
         List<AccumulatedTransaction> transactions = StreamSupport.stream(AccumulatedTransactionRepository.findAll().spliterator(), false).collect(Collectors.toList());
         for (AccumulatedTransaction transactionA : transactions) {
             if (transactionA.getUser().getId() == user.getId()) {

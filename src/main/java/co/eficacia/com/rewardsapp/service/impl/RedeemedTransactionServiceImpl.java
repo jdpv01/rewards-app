@@ -1,12 +1,13 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.RedeemedTransactionErrorCode;
-import co.eficacia.com.rewardsapp.error.ObjectError;
-import co.eficacia.com.rewardsapp.error.exception.GlobalException;
-import co.eficacia.com.rewardsapp.model.User;
-import co.eficacia.com.rewardsapp.repository.RedeemedTransactionRepository;
-import co.eficacia.com.rewardsapp.model.RedeemedTransaction;
-
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.repository.RedeemedTransactionRepository;
+import co.eficacia.com.rewardsapp.persistance.model.RedeemedTransaction;
+import co.eficacia.com.rewardsapp.persistance.model.User;
 import co.eficacia.com.rewardsapp.service.RedeemedTransactionService;
 import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ import java.util.stream.StreamSupport;
 public class RedeemedTransactionServiceImpl implements RedeemedTransactionService {
 
     private final RedeemedTransactionRepository redeemedTransactionRepository;
+
+    private final UserMapper userMapper;
 
     private UserService userService;
 
@@ -64,11 +67,12 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
     }
 
     @Override
-    public Integer redeemedCurrentPointsUser(User user) {
+    public Integer redeemedCurrentPointsUser(UserDTO userDTO) {
+        User user = userMapper.fromUserDTO(userDTO);
         List<RedeemedTransaction> transactions = StreamSupport.stream(redeemedTransactionRepository.findAll().spliterator(), false).collect(Collectors.toList());
         for (RedeemedTransaction transactionA : transactions) {
             if (transactionA.getUser().getId() == user.getId()) {
-                user.setRedeemedPoints(user.getRedeemedPoints() + transactionA.getRedeemedPoints());
+                user.setRedeemedPoint(user.getRedeemedPoint() + transactionA.getRedeemedPoints());
             }
         }
         userService.updateUser(user);

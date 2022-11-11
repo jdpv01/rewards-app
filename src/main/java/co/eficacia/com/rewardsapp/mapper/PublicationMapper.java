@@ -1,7 +1,7 @@
 package co.eficacia.com.rewardsapp.mapper;
 
-import co.eficacia.com.rewardsapp.dto.PublicationDTO;
-import co.eficacia.com.rewardsapp.model.Publication;
+import co.eficacia.com.rewardsapp.web.dto.PublicationDTO;
+import co.eficacia.com.rewardsapp.persistance.model.Publication;
 import org.mapstruct.Mapper;
 
 import java.util.UUID;

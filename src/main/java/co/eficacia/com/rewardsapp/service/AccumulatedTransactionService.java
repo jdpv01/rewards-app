@@ -1,7 +1,8 @@
 package co.eficacia.com.rewardsapp.service;
 
-import co.eficacia.com.rewardsapp.model.AccumulatedTransaction;
-import co.eficacia.com.rewardsapp.model.User;
+import co.eficacia.com.rewardsapp.persistance.model.AccumulatedTransaction;
+import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,5 +19,5 @@ public interface AccumulatedTransactionService {
 
     boolean deleteAccumulatedTransaction(UUID id);
 
-    Integer currentUserPoint(User user);
+    Integer currentUserPoint(UserDTO user);
 }

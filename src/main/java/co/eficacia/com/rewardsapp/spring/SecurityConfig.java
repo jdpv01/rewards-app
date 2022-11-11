@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2/**");
     }
 
-    @Override
+/*  @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
             .csrf().disable()
@@ -95,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
              .and()
                 .rememberMe().rememberMeServices(rememberMeServices()).key("theKey");
-    }
+    } */
 
     @Bean
     public PasswordEncoder encoder() {

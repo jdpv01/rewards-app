@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
-public class AccumulatedTransactionServiceImpl implements AccumulatedTransactionService{
+public class AccumulatedTransactionServiceImpl implements AccumulatedTransactionService {
 
     private final AccumulatedTransactionRepository AccumulatedTransactionRepository;
 
@@ -37,7 +37,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
     @Override
     public AccumulatedTransaction getAccumulatedTransaction(UUID id) {
         Optional<AccumulatedTransaction> optionalAccumulatedTransaction = AccumulatedTransactionRepository.findById(id);
-        if(optionalAccumulatedTransaction.isPresent())
+        if (optionalAccumulatedTransaction.isPresent())
             return optionalAccumulatedTransaction.get();
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(AccumulatedTransactionErrorCode.CODE_01, AccumulatedTransactionErrorCode.CODE_01.getMessage()));
     }
@@ -50,7 +50,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
     @Override
     public AccumulatedTransaction updateAccumulatedTransaction(AccumulatedTransaction AccumulatedTransaction) {
         Optional<AccumulatedTransaction> optionalAccumulatedTransaction = AccumulatedTransactionRepository.findById(AccumulatedTransaction.getId());
-        if(optionalAccumulatedTransaction.isPresent())
+        if (optionalAccumulatedTransaction.isPresent())
             return AccumulatedTransactionRepository.save(AccumulatedTransaction);
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(AccumulatedTransactionErrorCode.CODE_01, AccumulatedTransactionErrorCode.CODE_01.getMessage()));
     }
@@ -58,7 +58,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
     @Override
     public boolean deleteAccumulatedTransaction(UUID id) {
         Optional<AccumulatedTransaction> optionalAccumulatedTransaction = AccumulatedTransactionRepository.findById(id);
-        if(optionalAccumulatedTransaction.isPresent()) {
+        if (optionalAccumulatedTransaction.isPresent()) {
             AccumulatedTransactionRepository.delete(optionalAccumulatedTransaction.get());
             return true;
         }

@@ -86,9 +86,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         for (Promotion promotion : listPromotion) {
 
-            if (promotion.getQuantityPromotions() > 0 ) {
+            if (promotion.getAvailableQuantity() > 0 ) {
 
-                promotion.setQuantityPromotions(promotion.getQuantityPromotions() - 1);
+                promotion.setAvailableQuantity(promotion.getAvailableQuantity() - 1);
 
                 AccumulatedTransaction transaction = new AccumulatedTransaction();
 

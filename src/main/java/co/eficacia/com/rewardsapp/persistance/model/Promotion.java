@@ -35,7 +35,7 @@ public class Promotion {
 
     private int offeredPoints;
 
-    private int quantityPromotions;
+    private int availableQuantity;
 
     private ZonedDateTime validityDate;
 

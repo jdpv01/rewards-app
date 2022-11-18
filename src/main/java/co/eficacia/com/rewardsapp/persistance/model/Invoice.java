@@ -32,7 +32,7 @@ public class Invoice {
 
     @ManyToMany
     @JoinTable(
-            name = "promotion_invoice",
+            name = "`promotion_invoice`",
             joinColumns = @JoinColumn(name = "promotion_id"),
             inverseJoinColumns = @JoinColumn(name = "invoice_id"))
     private List<Promotion> promotionList;

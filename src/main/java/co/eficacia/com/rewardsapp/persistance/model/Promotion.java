@@ -37,6 +37,8 @@ public class Promotion {
 
     private ZonedDateTime validityDate;
 
+    private int availableQuantity;
+
     @PrePersist
     public void generateId(){
         this.id = UUID.randomUUID();

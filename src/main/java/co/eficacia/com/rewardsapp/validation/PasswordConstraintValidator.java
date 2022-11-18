@@ -2,7 +2,7 @@ package co.eficacia.com.rewardsapp.validation;
 
 import co.eficacia.com.rewardsapp.constant.RegistrationErrorCode;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.CustomValidationException;
+import co.eficacia.com.rewardsapp.web.error.exception.AuthenticationException;
 import lombok.SneakyThrows;
 import org.passay.*;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,12 @@ public class PasswordConstraintValidator implements ConstraintValidator<CustomAn
     @SneakyThrows
     public boolean isValid(String password, ConstraintValidatorContext context) {
         final PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(
-                new LengthRule(8, 30),
-                new CharacterRule(EnglishCharacterData.UpperCase, 1),
-                new CharacterRule(EnglishCharacterData.LowerCase, 1),
-                new CharacterRule(EnglishCharacterData.Digit, 1),
-                new CharacterRule(EnglishCharacterData.Special, 1),
-                new WhitespaceRule()));
+                new LengthRule(8, 30)));
+//                new CharacterRule(EnglishCharacterData.UpperCase, 1),
+//                new CharacterRule(EnglishCharacterData.LowerCase, 1)
+//                new CharacterRule(EnglishCharacterData.Digit, 1),
+//                new CharacterRule(EnglishCharacterData.Special, 1),
+//                new WhitespaceRule()));
         RuleResult ruleResult = passwordValidator.validate(new PasswordData(password));
         if (ruleResult.isValid()) {
             return true;
@@ -33,6 +33,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<CustomAn
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
-        throw new CustomValidationException(HttpStatus.BAD_REQUEST, new ObjectError(RegistrationErrorCode.CODE_01, messageTemplate));
+        throw new AuthenticationException(HttpStatus.UNAUTHORIZED, new ObjectError(RegistrationErrorCode.CODE_01, messageTemplate));
     }
 }

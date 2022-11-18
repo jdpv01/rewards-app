@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum LoginErrorCode {
 
-    CODE_01("");
+    CODE_01("Invalid");
 
     private final String message;
 }

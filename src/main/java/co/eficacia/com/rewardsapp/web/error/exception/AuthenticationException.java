@@ -14,5 +14,5 @@ import java.security.InvalidParameterException;
 public class AuthenticationException extends InvalidParameterException {
 
     private HttpStatus httpStatus;
-    private ObjectError entityError;
+    private ObjectError objectError;
 }

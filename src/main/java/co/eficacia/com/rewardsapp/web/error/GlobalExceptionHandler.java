@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-//@ControllerAdvice
-public class GlobalExceptionHandler {
+@ControllerAdvice
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-//    @ExceptionHandler
-//    public ResponseEntity<CustomObjectError> handleException(GlobalException globalException){
-//        return new ResponseEntity<>(globalException.getCustomObjectError(),
-//                globalException.getHttpStatus());
-//    }
-//
-//    @ExceptionHandler({AuthenticationException.class})
-//    @ResponseBody
-//    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-//    public ResponseEntity<CustomObjectError> handleLoginException(AuthenticationException authenticationException){
-//        return new ResponseEntity<>(authenticationException.getEntityError(),
-//                authenticationException.getHttpStatus());
-//    }
+    @ExceptionHandler
+    @ResponseBody
+    public ResponseEntity<ObjectError> handleException(GlobalException globalException){
+        return new ResponseEntity<>(globalException.getObjectError(), globalException.getHttpStatus());
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ObjectError> handleAuthenticationException(AuthenticationException authenticationException){
+        return new ResponseEntity<>(authenticationException.getObjectError(), authenticationException.getHttpStatus());
+    }
 }

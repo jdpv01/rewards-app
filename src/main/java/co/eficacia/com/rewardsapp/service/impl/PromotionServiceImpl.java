@@ -38,7 +38,14 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public List<Promotion> getPromotions() {
-        return StreamSupport.stream(promotionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Promotion> listPromotion = StreamSupport.stream(promotionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Promotion> promotions = new ArrayList<>();
+        for (Promotion promotion : listPromotion) {
+            if (promotion.getAvailableQuantity() > 0) {
+                promotions.add(promotion);
+            }
+        }
+        return promotions;
     }
 
     @Override
@@ -63,6 +70,7 @@ public class PromotionServiceImpl implements PromotionService {
     public List<Promotion> searchPromotion(String line) {
         List<Promotion> listPromotion = getPromotions();
         List<Promotion> listFound = new ArrayList<>();
+        //stream
         for (Promotion  promotion : listPromotion) {
             if (promotion.getName().equals(line)) {
                 listFound.add(promotion);

@@ -1,7 +1,7 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
 import co.eficacia.com.rewardsapp.mapper.InvoiceMapper;
-import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.persistance.model.Invoice;
 import co.eficacia.com.rewardsapp.service.InvoiceService;
 import co.eficacia.com.rewardsapp.web.api.InvoiceApi;
 import co.eficacia.com.rewardsapp.web.dto.InvoiceDTO;
@@ -48,18 +48,19 @@ public class InvoiceController implements InvoiceApi {
 
     @Override
     public InvoiceDTO approvedTransaction(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.approvedTransaction(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
+        return invoiceMapper.fromInvoice(invoiceService.approveTransaction(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
     }
 
     @Override
     public InvoiceDTO noApprovedTransactions(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.noApprovedTransactions(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
+        return invoiceMapper.fromInvoice(invoiceService.noApproveTransactions(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
     }
 
     @Override
-    public Integer currentPendingPointsUser(UserDTO user) {
-        return invoiceService.currentPendingPointsUser(user);
+    public Integer currentPendingPointsUser(UserDTO userDTO) {
+        return invoiceService.currentPendingPointsUser(userDTO);
     }
+
 
 
 }

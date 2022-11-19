@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
+import co.eficacia.com.rewardsapp.persistance.model.Survey;
 import co.eficacia.com.rewardsapp.web.api.SurveyAPI;
 import co.eficacia.com.rewardsapp.web.dto.SurveyDTO;
 import co.eficacia.com.rewardsapp.mapper.SurveyMapper;
@@ -41,5 +42,10 @@ public class SurveyController implements SurveyAPI {
     @Override
     public boolean deleteSurvey(UUID id) {
         return surveyService.deleteSurvey(id);
+    }
+
+    @Override
+    public List<Survey> getSurveysOrderValidity(){
+        return surveyService.getSurveysOrderValidity();
     }
 }

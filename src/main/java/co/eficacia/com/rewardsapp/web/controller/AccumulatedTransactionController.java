@@ -1,11 +1,14 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
 import co.eficacia.com.rewardsapp.mapper.AccumulatedTransactionMapper;
+import co.eficacia.com.rewardsapp.mapper.CommentMapper;
+import co.eficacia.com.rewardsapp.mapper.SurveyMapper;
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.web.api.AccumulatedTransactionAPI;
-import co.eficacia.com.rewardsapp.web.dto.AccumulatedTransactionDTO;
+import co.eficacia.com.rewardsapp.web.api.SurveyAPI;
+import co.eficacia.com.rewardsapp.web.dto.*;
 
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +23,12 @@ public class AccumulatedTransactionController implements AccumulatedTransactionA
     private final AccumulatedTransactionService accumulatedTransactionservice;
 
     private final AccumulatedTransactionMapper  accumulatedTransactionMapper;
+
+    private final CommentMapper commentMapper;
+
+    private final UserMapper userMapper;
+
+    private final SurveyMapper  surveyMapper;
 
     @Override
     public AccumulatedTransactionDTO createAccumulatedTransaction(AccumulatedTransactionDTO accumulatedTransactionDTO) {
@@ -47,9 +56,18 @@ public class AccumulatedTransactionController implements AccumulatedTransactionA
     }
 
     @Override
-    public Integer currentUserPoint(UserDTO user) {
-        return accumulatedTransactionservice.currentUserPoint(user);
+    public Integer currentUserPoint(UserDTO userDTO) {
+        return accumulatedTransactionservice.currentUserPoint(userMapper.fromUserDTO(userDTO));
     }
 
+    @Override
+    public void addTransactionComment(UserDTO userDTO, PublicationDTO publicationDTO, CommentDTO commentDTO) {
+        accumulatedTransactionservice.addTransactionComment(userMapper.fromUserDTO(userDTO), ,commentMapper.fromCommentDTO(commentDTO));
+    }
+
+    @Override
+    public void addTransactionSurvey(UserDTO userDTO, SurveyDTO surveyDTO) {
+        accumulatedTransactionservice.addTransactionSurvey(userMapper.fromUserDTO(userDTO), surveyMapper.fromSurveyDTO(surveyDTO));
+    }
 
 }

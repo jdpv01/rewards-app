@@ -2,7 +2,6 @@ package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.RedeemedTransactionErrorCode;
 import co.eficacia.com.rewardsapp.mapper.UserMapper;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
 import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
 import co.eficacia.com.rewardsapp.persistance.repository.RedeemedTransactionRepository;
@@ -11,6 +10,7 @@ import co.eficacia.com.rewardsapp.persistance.model.User;
 import co.eficacia.com.rewardsapp.service.RedeemedTransactionService;
 import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +26,7 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
 
     private final RedeemedTransactionRepository redeemedTransactionRepository;
 
-    private final UserMapper userMapper;
-
+    @Autowired
     private UserService userService;
 
     @Override
@@ -67,8 +66,7 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
     }
 
     @Override
-    public Integer redeemedCurrentPointsUser(UserDTO userDTO) {
-        User user = userMapper.fromUserDTO(userDTO);
+    public Integer redeemedCurrentPointsUser(User user) {
         List<RedeemedTransaction> transactions = StreamSupport.stream(redeemedTransactionRepository.findAll().spliterator(), false).collect(Collectors.toList());
         for (RedeemedTransaction transactionA : transactions) {
             if (transactionA.getUser().getId() == user.getId()) {

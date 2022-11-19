@@ -1,6 +1,7 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.InvoiceErrorCode;
+import co.eficacia.com.rewardsapp.mapper.InvoiceMapper;
 import co.eficacia.com.rewardsapp.mapper.UserMapper;
 import co.eficacia.com.rewardsapp.persistance.model.*;
 import co.eficacia.com.rewardsapp.web.dto.UserDTO;
@@ -12,6 +13,7 @@ import co.eficacia.com.rewardsapp.service.InvoiceService;
 import co.eficacia.com.rewardsapp.service.PromotionService;
 import co.eficacia.com.rewardsapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +27,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
 
-    private final AccumulatedTransactionService accumulatedTransactionService;
+    @Autowired
+    private AccumulatedTransactionService accumulatedTransactionService;
 
-    private final PromotionService promotionService;
+    @Autowired
+    private PromotionService promotionService;
 
-    private final UserMapper userMapper;
-
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private InvoiceMapper invoiceMapper;
 
     @Override
     public Invoice createInvoice(Invoice invoice) {
@@ -78,50 +87,34 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice approvedTransaction(Invoice invoice) {
-
-        invoice.setState(invoice.APPROVED);
-
+    public Invoice approveTransaction(Invoice invoice) {
         List<Promotion> listPromotion = invoice.getPromotionList();
-
         for (Promotion promotion : listPromotion) {
-
-            if (promotion.getAvailableQuantity() > 0 ) {
-
-                promotion.setAvailableQuantity(promotion.getAvailableQuantity() - 1);
-
-                AccumulatedTransaction transaction = new AccumulatedTransaction();
-
-                transaction.setInvoice(invoice);
-
-                transaction.setSource(transaction.PROMOTION);
-
-                transaction.setAccumulatedPoints(promotion.getOfferedPoints());
-
-                transaction.setProductQuantity(1);
-
-                transaction.setUser(invoice.getUser());
-
-                transaction.setTimestamp(invoice.getTimestamp());
-
-                accumulatedTransactionService.createAccumulatedTransaction(transaction);
-
-                promotionService.updatePromotion(promotion);
-            }
+            promotion.setAvailableQuantity(promotion.getAvailableQuantity() - 1);
+            AccumulatedTransaction transaction = new AccumulatedTransaction();
+            transaction = updateDataTransaction(transaction, invoice, promotion);
+            accumulatedTransactionService.createAccumulatedTransaction(transaction);
+            promotionService.updatePromotion(promotion);
         }
-
+        invoice.setState(invoice.APPROVED);
         invoiceRepository.save(invoice);
-
         return invoice;
     }
 
+    public AccumulatedTransaction updateDataTransaction(AccumulatedTransaction transaction,Invoice invoice, Promotion promotion) {
+        transaction.setInvoice(invoice);
+        transaction.setSource(transaction.PROMOTION);
+        transaction.setAccumulatedPoints(promotion.getOfferedPoints());
+        transaction.setProductQuantity(1);
+        transaction.setUser(invoice.getUser());
+        transaction.setTimestamp(invoice.getTimestamp());
+        return transaction;
+    }
+
     @Override
-    public Invoice noApprovedTransactions(Invoice invoice) {
-
+    public Invoice noApproveTransactions(Invoice invoice) {
         invoice.setState(invoice.NOT_APPROVED);
-
         invoiceRepository.save(invoice);
-
         return invoice;
     }
 

@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.web.api;
 
+import co.eficacia.com.rewardsapp.persistance.model.Survey;
 import co.eficacia.com.rewardsapp.web.dto.SurveyDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,4 +24,8 @@ public interface SurveyAPI {
 
     @DeleteMapping("/delete-survey/{id}")
     boolean deleteSurvey(@PathVariable UUID id);
+
+    @GetMapping("/get-surveys-order-validation")
+    List<Survey> getSurveysOrderValidity();
+
 }

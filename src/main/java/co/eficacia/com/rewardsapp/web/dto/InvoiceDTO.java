@@ -23,8 +23,6 @@ public class InvoiceDTO {
 
     private Store store;
 
-    private List<Promotion> promotionList;
-
     private String image;
 
     private String code;

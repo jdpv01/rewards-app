@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
             throw new AuthenticationException(HttpStatus.BAD_REQUEST,
                     new ObjectError(RegistrationErrorCode.CODE_01, RegistrationErrorCode.CODE_01.getMessage()));
         }
-        final User user = new User();
+        final User user = new User(UUID.randomUUID(), "camilo", "escobar", "masculino", "10/30/23", false, "3242342", "camilo@comgo.com", "assdefasea", true, 5343, 3234, 23234);
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));

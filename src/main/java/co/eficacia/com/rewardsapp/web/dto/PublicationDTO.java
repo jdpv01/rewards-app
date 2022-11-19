@@ -29,5 +29,4 @@ public class PublicationDTO {
 
     private ZonedDateTime validityDate;
 
-    private List<Comment> commentList;
 }

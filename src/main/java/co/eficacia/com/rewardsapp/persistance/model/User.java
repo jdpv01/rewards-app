@@ -1,6 +1,7 @@
 package co.eficacia.com.rewardsapp.persistance.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Table(name = "`user`")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -69,7 +71,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Answer> answerList;
 
-    public User() {
+    public User(UUID uuid, String camilo, String escobar, String masculino, String s, boolean b, String s1, String s2, String assdefasea, boolean b1, int i, int i1, int i2) {
         super();
         this.enabled = false;
     }

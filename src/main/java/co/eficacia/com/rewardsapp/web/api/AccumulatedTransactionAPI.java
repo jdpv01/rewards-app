@@ -1,6 +1,9 @@
 package co.eficacia.com.rewardsapp.web.api;
 
+import co.eficacia.com.rewardsapp.persistance.model.Survey;
 import co.eficacia.com.rewardsapp.web.dto.AccumulatedTransactionDTO;
+import co.eficacia.com.rewardsapp.web.dto.CommentDTO;
+import co.eficacia.com.rewardsapp.web.dto.SurveyDTO;
 import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,4 +30,10 @@ public interface AccumulatedTransactionAPI {
 
     @GetMapping("/get-user-current-point/{id}")
     Integer currentUserPoint(UserDTO user);
+
+    @PostMapping("/add-transaction-comment/{id}")
+    void addTransactionComment(UserDTO userDTO, Integer points, CommentDTO commentDTO);
+
+    @PostMapping("/add-transaction-survey/{id}")
+    void addTransactionSurvey(UserDTO userDTO, SurveyDTO surveyDTO);
 }

@@ -16,4 +16,6 @@ public interface SurveyService {
     Survey updateSurvey(Survey survey);
 
     boolean deleteSurvey(UUID id);
+
+    List<Survey> getSurveysOrderValidity();
 }

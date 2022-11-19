@@ -1,7 +1,9 @@
 package co.eficacia.com.rewardsapp.web.api;
 
 import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.web.dto.AccumulatedTransactionDTO;
 import co.eficacia.com.rewardsapp.web.dto.InvoiceDTO;
+import co.eficacia.com.rewardsapp.web.dto.PromotionDTO;
 import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import org.springframework.web.bind.annotation.*;
 

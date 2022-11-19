@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Arrays.*;
 
@@ -85,7 +86,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     User createUserIfNotFound(final String email, final String firstName, final String lastName, final String password, final Collection<Role> roles) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            user = new User();
+            user = new User(UUID.randomUUID(), "camilo", "escobar", "masculino", "10/30/23", false, "3242342", "camilo@comgo.com", "assdefasea", true, 5343, 3234, 23234);
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setPassword(passwordEncoder.encode(password));

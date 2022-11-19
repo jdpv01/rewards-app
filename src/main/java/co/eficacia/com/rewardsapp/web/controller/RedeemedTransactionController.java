@@ -1,6 +1,7 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
 import co.eficacia.com.rewardsapp.mapper.RedeemedTransactionMapper;
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
 import co.eficacia.com.rewardsapp.service.RedeemedTransactionService;
 import co.eficacia.com.rewardsapp.web.api.RedeemedTransactionApi;
 import co.eficacia.com.rewardsapp.web.dto.RedeemedTransactionDTO;
@@ -19,6 +20,8 @@ public class RedeemedTransactionController implements RedeemedTransactionApi {
     private final RedeemedTransactionService redeemedTransactionService;
 
     private final RedeemedTransactionMapper redeemedTransactionMapper;
+
+    private final UserMapper userMapper;
 
     @Override
     public RedeemedTransactionDTO createRedeemedTransaction(RedeemedTransactionDTO redeemedTransactionDTO) {
@@ -46,8 +49,8 @@ public class RedeemedTransactionController implements RedeemedTransactionApi {
     }
 
     @Override
-    public Integer redeemedCurrentPointsUser(UserDTO user) {
-        return redeemedTransactionService.redeemedCurrentPointsUser(user);
+    public Integer redeemedCurrentPointsUser(UserDTO userDTO) {
+        return redeemedTransactionService.redeemedCurrentPointsUser(userMapper.fromUserDTO(userDTO));
     }
 
 

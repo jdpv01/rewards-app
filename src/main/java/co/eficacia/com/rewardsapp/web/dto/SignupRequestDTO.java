@@ -21,10 +21,15 @@ public class SignupRequestDTO {
     @Size(max = 50)
     @Email
     private String email;
+
+    private String name;
+
+    private String lastName;
     
     private Set<String> role;
 
     @NotBlank
+    @Size(min = 8)
     @Size(max = 30)
     @CustomAnnotations.PasswordValidation
     private String password;

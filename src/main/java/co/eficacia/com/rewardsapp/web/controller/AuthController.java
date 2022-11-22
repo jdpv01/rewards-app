@@ -12,7 +12,7 @@ import co.eficacia.com.rewardsapp.service.impl.UserDetailsImpl;
 import co.eficacia.com.rewardsapp.web.api.AuthAPI;
 import co.eficacia.com.rewardsapp.web.dto.LoginRequestDTO;
 import co.eficacia.com.rewardsapp.web.dto.SignupRequestDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,21 +28,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController implements AuthAPI {
-	@Autowired
-	AuthenticationManager authenticationManager;
+	final AuthenticationManager authenticationManager;
 
-	@Autowired
-	UserRepository userRepository;
+	final UserRepository userRepository;
 
-	@Autowired
-	RoleRepository roleRepository;
+	final RoleRepository roleRepository;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	JwtUtils jwtUtils;
+	final JwtUtils jwtUtils;
 
 	@Override
 	public ResponseEntity<?> authenticateUser(LoginRequestDTO loginRequestDTO) {
@@ -70,7 +66,8 @@ public class AuthController implements AuthAPI {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequestDTO.getEmail(), passwordEncoder.encode(signUpRequestDTO.getPassword()));
+		User user = new User(signUpRequestDTO.getName(), signUpRequestDTO.getLastName(),
+				signUpRequestDTO.getEmail(), passwordEncoder.encode(signUpRequestDTO.getPassword()));
 
 		Set<String> strRoles = signUpRequestDTO.getRole();
 		Set<Role> roleSet = new HashSet<>();

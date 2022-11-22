@@ -34,7 +34,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup)
             return;
-        User adminUser = new User("juandpv01@hotmail.com", passwordEncoder.encode("123456Aa"));
+        User adminUser = new User("Juan", "Peláez", "juandpv01@hotmail.com", passwordEncoder.encode("123456Aa"));
         Set<Role> roleSet = new HashSet<>();
         Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));

@@ -65,16 +65,21 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(AccumulatedTransactionErrorCode.CODE_01, AccumulatedTransactionErrorCode.CODE_01.getMessage()));
     }
 
-    @Override
-    public Integer currentUserPoint(User user) {
+    @Override                   //iduser
+    public User currentUserPoint(User user) {
         List<AccumulatedTransaction> transactions = getAccumulatedTransactions();
-        Stream<AccumulatedTransaction> stream = transactions.stream().filter(transaction -> transaction.getUser().getId() == user.getId());
+        for (AccumulatedTransaction transaction : transactions) {
+            if (transaction.getUser().getId().equals(user.getId())) {
+                user.setCurrentPoint(user.getCurrentPoint() + transaction.getAccumulatedPoints());
+            }
+        }
+        //Stream<AccumulatedTransaction> stream = transactions.stream().filter(transaction -> transaction.getUser().getId() == user.getId());
         userService.updateUser(user);
-        return user.getCurrentPoint();
+        return user;
     }
 
     @Override                                   //Publication
-    public void addTransactionComment(User user, Publication publication, Comment comment) {
+    public AccumulatedTransaction addTransactionComment(User user, Publication publication, Comment comment) {
         AccumulatedTransaction transaction = new AccumulatedTransaction();
         transaction.setUser(user);
         transaction.setSource(transaction.PUBLICATION);
@@ -82,10 +87,11 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
         transaction.setAccumulatedPoints(publication.getOfferedPoints());
         transaction.setProductQuantity(1);
         accumulatedTransactionRepository.save(transaction);
+        return transaction;
     }
 
     @Override
-    public void addTransactionSurvey(User user, Survey survey) {
+    public AccumulatedTransaction addTransactionSurvey(User user, Survey survey) {
         AccumulatedTransaction transaction = new AccumulatedTransaction();
         transaction.setUser(user);
         transaction.setSource(transaction.SURVEY);
@@ -93,6 +99,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
         transaction.setAccumulatedPoints(survey.getOfferedPoints());
         transaction.setProductQuantity(1);
         accumulatedTransactionRepository.save(transaction);
+        return transaction;
     }
 
 }

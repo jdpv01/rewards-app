@@ -86,7 +86,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
     }
 
-    @Override
+    @Override                       //List<Promotion
     public Invoice approveTransaction(Invoice invoice) {
         List<Promotion> listPromotion = invoice.getPromotionList();
         for (Promotion promotion : listPromotion) {

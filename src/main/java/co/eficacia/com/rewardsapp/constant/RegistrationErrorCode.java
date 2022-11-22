@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum RegistrationErrorCode {
 
-    CODE_01("An account with that email address already exists.");
+    CODE_01("Invalid password.");
 
     private final String message;
 }

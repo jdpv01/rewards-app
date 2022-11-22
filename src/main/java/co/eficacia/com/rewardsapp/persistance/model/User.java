@@ -3,18 +3,19 @@ package co.eficacia.com.rewardsapp.persistance.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+@Data
 @Entity
-@Table(name = "`user`")
 @Getter
 @Setter
+@Table(name = "`user`", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
@@ -22,14 +23,12 @@ public class User {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roleCollection;
+            name = "`user_role`",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roleSet = new HashSet<>();
 
     private String firstName;
 
@@ -45,10 +44,7 @@ public class User {
 
     private String email;
 
-    @Column(length = 60)
     private String password;
-
-    private boolean enabled;
 
     private int currentPoint;
 
@@ -71,57 +67,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Answer> answerList;
 
-    public User(UUID uuid, String camilo, String escobar, String masculino, String s, boolean b, String s1, String s2, String assdefasea, boolean b1, int i, int i1, int i2) {
-        super();
-        this.enabled = false;
-    }
-
     @PrePersist
     public void generateId(){
         this.id = UUID.randomUUID();
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User user = (User) obj;
-        if (!getEmail().equals(user.getEmail())) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("User [id=")
-                .append(id)
-                .append(", firstName=").append(firstName)
-                .append(", lastName=").append(lastName)
-                .append(", gender=").append(gender)
-                .append(", birthDate=").append(birthDate)
-                .append(", subscribed=").append(subscribed)
-                .append(", phoneNumber=").append(phoneNumber)
-                .append(", email=").append(email)
-                .append(", enabled=").append(enabled)
-                .append(", roleCollection=").append(roleCollection)
-                .append("]");
-        return builder.toString();
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 }

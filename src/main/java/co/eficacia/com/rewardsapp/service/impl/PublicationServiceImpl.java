@@ -68,7 +68,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public void addCommentToPublication(Publication publication, Comment comment, User user) {
         comment.setUser(user);
-        accumulatedTransactionService.addTransactionComment(user, publication.getOfferedPoints(), comment);
+        accumulatedTransactionService.addTransactionComment(user, publication, comment);
         publication.getCommentList().add(comment);
         publicationRepository.save(publication);
     }

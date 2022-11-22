@@ -1,1 +1,3 @@
-INSERT INTO "user" (id, first_name, last_name, gender, birth_date, subscribed, phone_number, email, password, enabled, current_point, redeemed_point, pending_point) VALUES ('d7c2632f-f6e2-4b85-bd4e-afc51f8a8e0c', 'David', 'Male', 'Peláez', '1999-12-21', 'true', '+573164518508', 'juandpv01@hotmail.com', 'passworD1!', 'true', 300, 200, 400)
+INSERT INTO "role" (name) VALUES('ROLE_USER')
+INSERT INTO "role" (name) VALUES('ROLE_MODERATOR')
+INSERT INTO "role" (name) VALUES('ROLE_ADMIN')

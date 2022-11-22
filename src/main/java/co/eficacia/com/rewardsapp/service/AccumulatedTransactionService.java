@@ -18,10 +18,10 @@ public interface AccumulatedTransactionService {
 
     boolean deleteAccumulatedTransaction(UUID id);
 
-    Integer currentUserPoint(User user);
+    User currentUserPoint(User user);
 
     //Publication
-    void addTransactionComment(User user, Publication publication, Comment comment);
+    AccumulatedTransaction addTransactionComment(User user, Publication publication, Comment comment);
 
-    void addTransactionSurvey(User user, Survey survey);
+    AccumulatedTransaction addTransactionSurvey(User user, Survey survey);
 }

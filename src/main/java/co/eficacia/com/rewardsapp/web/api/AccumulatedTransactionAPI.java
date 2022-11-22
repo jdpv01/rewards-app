@@ -1,10 +1,7 @@
 package co.eficacia.com.rewardsapp.web.api;
 
 import co.eficacia.com.rewardsapp.persistance.model.Survey;
-import co.eficacia.com.rewardsapp.web.dto.AccumulatedTransactionDTO;
-import co.eficacia.com.rewardsapp.web.dto.CommentDTO;
-import co.eficacia.com.rewardsapp.web.dto.SurveyDTO;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
+import co.eficacia.com.rewardsapp.web.dto.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,10 +26,10 @@ public interface AccumulatedTransactionAPI {
     boolean deleteAccumulatedTransaction(@PathVariable UUID id);
 
     @GetMapping("/get-user-current-point/{id}")
-    Integer currentUserPoint(UserDTO user);
+    UserDTO currentUserPoint(UserDTO user);
 
     @PostMapping("/add-transaction-comment/{id}")
-    void addTransactionComment(UserDTO userDTO, Integer points, CommentDTO commentDTO);
+    void addTransactionComment(UserDTO userDTO, PublicationDTO publicationDTO, CommentDTO commentDTO);
 
     @PostMapping("/add-transaction-survey/{id}")
     void addTransactionSurvey(UserDTO userDTO, SurveyDTO surveyDTO);

@@ -1,12 +1,8 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
-import co.eficacia.com.rewardsapp.mapper.AccumulatedTransactionMapper;
-import co.eficacia.com.rewardsapp.mapper.CommentMapper;
-import co.eficacia.com.rewardsapp.mapper.SurveyMapper;
-import co.eficacia.com.rewardsapp.mapper.UserMapper;
+import co.eficacia.com.rewardsapp.mapper.*;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.web.api.AccumulatedTransactionAPI;
-import co.eficacia.com.rewardsapp.web.api.SurveyAPI;
 import co.eficacia.com.rewardsapp.web.dto.*;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +25,8 @@ public class AccumulatedTransactionController implements AccumulatedTransactionA
     private final UserMapper userMapper;
 
     private final SurveyMapper  surveyMapper;
+
+    private final PublicationMapper publicationMapper;
 
     @Override
     public AccumulatedTransactionDTO createAccumulatedTransaction(AccumulatedTransactionDTO accumulatedTransactionDTO) {
@@ -56,13 +54,13 @@ public class AccumulatedTransactionController implements AccumulatedTransactionA
     }
 
     @Override
-    public Integer currentUserPoint(UserDTO userDTO) {
-        return accumulatedTransactionservice.currentUserPoint(userMapper.fromUserDTO(userDTO));
+    public UserDTO currentUserPoint(UserDTO userDTO) {
+        return userMapper.fromUser(accumulatedTransactionservice.currentUserPoint(userMapper.fromUserDTO(userDTO)));
     }
 
     @Override
     public void addTransactionComment(UserDTO userDTO, PublicationDTO publicationDTO, CommentDTO commentDTO) {
-        accumulatedTransactionservice.addTransactionComment(userMapper.fromUserDTO(userDTO), ,commentMapper.fromCommentDTO(commentDTO));
+        accumulatedTransactionservice.addTransactionComment(userMapper.fromUserDTO(userDTO), publicationMapper.fromPublicationDTO(publicationDTO) ,commentMapper.fromCommentDTO(commentDTO));
     }
 
     @Override

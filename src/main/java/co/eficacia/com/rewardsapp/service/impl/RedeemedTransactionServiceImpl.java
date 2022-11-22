@@ -73,7 +73,7 @@ public class RedeemedTransactionServiceImpl implements RedeemedTransactionServic
                 user.setRedeemedPoint(user.getRedeemedPoint() + transactionA.getRedeemedPoints());
             }
         }
-        userService.updateUser(user);
+        //userService.updateUser(user);
 
         return user.getCurrentPoint();
     }

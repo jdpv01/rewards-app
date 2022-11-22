@@ -73,8 +73,7 @@ public class AccumulatedTransactionServiceImpl implements AccumulatedTransaction
                 user.setCurrentPoint(user.getCurrentPoint() + transaction.getAccumulatedPoints());
             }
         }
-        //Stream<AccumulatedTransaction> stream = transactions.stream().filter(transaction -> transaction.getUser().getId() == user.getId());
-        userService.updateUser(user);
+        //userService.updateUser(user);
         return user;
     }
 

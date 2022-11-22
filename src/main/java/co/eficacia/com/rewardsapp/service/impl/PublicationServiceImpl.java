@@ -1,6 +1,7 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PublicationErrorCode;
+import co.eficacia.com.rewardsapp.persistance.model.AccumulatedTransaction;
 import co.eficacia.com.rewardsapp.persistance.model.Comment;
 import co.eficacia.com.rewardsapp.persistance.model.User;
 import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
@@ -68,7 +69,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public void addCommentToPublication(Publication publication, Comment comment, User user) {
         comment.setUser(user);
-        accumulatedTransactionService.addTransactionComment(user, publication, comment);
+       //AccumulatedTransaction transactionComment = accumulatedTransactionService.addTransactionComment(user, publication, comment);
         publication.getCommentList().add(comment);
         publicationRepository.save(publication);
     }

@@ -70,11 +70,10 @@ public class PromotionServiceImpl implements PromotionService {
     public List<Promotion> searchPromotion(String line) {
         List<Promotion> listPromotion = getPromotions();
         List<Promotion> listFound = new ArrayList<>();
-        //stream
         for (Promotion  promotion : listPromotion) {
             if (promotion.getName().equals(line)) {
                 listFound.add(promotion);
-            }
+             }
         }
         return listFound;
     }

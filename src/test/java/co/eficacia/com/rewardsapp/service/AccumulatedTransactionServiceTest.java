@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-@ExtendWith(MockitoExtension.class)
 public class AccumulatedTransactionServiceTest {
 
     private AccumulatedTransactionService accumulatedTransactionService;
@@ -36,8 +35,6 @@ public class AccumulatedTransactionServiceTest {
     private AccumulatedTransactionRepository accumulatedTransactionRepository;
 
     private UserRepository userRepository;
-    private UserServiceImpl userService;
-
     @BeforeEach
     public void init() {
         accumulatedTransactionRepository = mock(AccumulatedTransactionRepository.class);
@@ -60,7 +57,7 @@ public class AccumulatedTransactionServiceTest {
         transactions.add(transaction1);
         transactions.add(transaction2);
         UserRepository userRepository = mock(UserRepository.class);
-        when(userService.updateUser(user1)).thenReturn(user1);
+        //when(userService.updateUser(user1)).thenReturn(user1);
         when(userRepository.save(any())).thenReturn(user1);
         when(accumulatedTransactionRepository.findAll()).thenReturn(transactions);
         when(accumulatedTransactionRepository.save(any())).thenReturn(transactions);

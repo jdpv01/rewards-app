@@ -13,7 +13,7 @@ public interface AccumulatedTransactionAPI {
     @PostMapping("/create-accumulatedTransaction")
     AccumulatedTransactionDTO createAccumulatedTransaction(@RequestBody AccumulatedTransactionDTO accumulatedTransactionDTO);
 
-    @GetMapping("/get-accumulatedTransaction/{id")
+    @GetMapping("/get-accumulatedTransaction/{id}")
     AccumulatedTransactionDTO getAccumulatedTransactionDTO(@PathVariable UUID id);
 
     @GetMapping("/get-all-accumulatedTransactions")

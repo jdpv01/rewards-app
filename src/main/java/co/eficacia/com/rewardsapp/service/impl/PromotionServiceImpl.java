@@ -66,15 +66,12 @@ public class PromotionServiceImpl implements PromotionService {
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 
-    @Override
-    public List<Promotion> searchPromotion(String line) {
-        List<Promotion> listPromotion = getPromotions();
-        List<Promotion> listFound = new ArrayList<>();
-        for (Promotion  promotion : listPromotion) {
-            if (promotion.getName().equals(line)) {
-                listFound.add(promotion);
-             }
-        }
-        return listFound;
+    @Override                           //nombew
+    public Optional<Promotion> searchPromotion(String name) {
+        Optional<Promotion> optionalPromotion = promotionRepository.findByName(name);
+        if(optionalPromotion.isPresent())
+            return optionalPromotion;
+        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
+
 }

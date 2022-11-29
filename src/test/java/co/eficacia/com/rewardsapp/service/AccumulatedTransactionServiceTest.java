@@ -57,7 +57,6 @@ public class AccumulatedTransactionServiceTest {
         transactions.add(transaction1);
         transactions.add(transaction2);
         UserRepository userRepository = mock(UserRepository.class);
-        //when(userService.updateUser(user1)).thenReturn(user1);
         when(userRepository.save(any())).thenReturn(user1);
         when(accumulatedTransactionRepository.findAll()).thenReturn(transactions);
         when(accumulatedTransactionRepository.save(any())).thenReturn(transactions);

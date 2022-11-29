@@ -5,6 +5,7 @@ import co.eficacia.com.rewardsapp.web.dto.PromotionDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/promotions")
@@ -26,6 +27,6 @@ public interface PromotionAPI {
     boolean deletePromotion(@PathVariable UUID id);
 
     @GetMapping("/search-promotions-by-name")
-    List<Promotion> searchPromotion(String line);
+    Optional<Promotion> searchPromotion(String line);
 
 }

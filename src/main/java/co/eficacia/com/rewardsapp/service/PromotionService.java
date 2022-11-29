@@ -3,6 +3,7 @@ package co.eficacia.com.rewardsapp.service;
 import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PromotionService {
@@ -17,5 +18,5 @@ public interface PromotionService {
 
     boolean deletePromotion(UUID id);
 
-    List<Promotion> searchPromotion(String line);
+    Optional<Promotion> searchPromotion(String line);
 }

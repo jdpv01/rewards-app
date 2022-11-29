@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -45,8 +46,8 @@ public class PromotionController implements PromotionAPI {
     }
 
     @Override
-    public List<Promotion> searchPromotion(String line) {
-        return promotionService.searchPromotion(line);
+    public Optional<Promotion> searchPromotion(String name) {
+        return promotionService.searchPromotion(name);
     }
 
 }

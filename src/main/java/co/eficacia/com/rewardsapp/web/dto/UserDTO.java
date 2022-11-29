@@ -1,13 +1,11 @@
 package co.eficacia.com.rewardsapp.web.dto;
 
-import co.eficacia.com.rewardsapp.validation.CustomAnnotations;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -15,16 +13,15 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class UserDTO {
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
 
-    @CustomAnnotations.PasswordValidation
-    private String password;
+    private String gender;
 
-    @Email
-    @NotNull
-    private String email;
+    private LocalDate birthDate;
+
+    private boolean subscribed;
+
+    private String phoneNumber;
 }

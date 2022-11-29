@@ -30,15 +30,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class AuthController implements AuthAPI {
-	final AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-	final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	final RoleRepository roleRepository;
+	private final RoleRepository roleRepository;
 
-	final PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-	final JwtUtils jwtUtils;
+	private final JwtUtils jwtUtils;
 
 	@Override
 	public ResponseEntity<?> authenticateUser(LoginRequestDTO loginRequestDTO) {

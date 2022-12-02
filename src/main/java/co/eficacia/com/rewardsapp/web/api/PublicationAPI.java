@@ -1,6 +1,8 @@
 package co.eficacia.com.rewardsapp.web.api;
 
+import co.eficacia.com.rewardsapp.web.dto.CommentDTO;
 import co.eficacia.com.rewardsapp.web.dto.PublicationDTO;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,4 +25,7 @@ public interface PublicationAPI {
 
     @DeleteMapping("/delete-publication/{id}")
     boolean deletePublication(@PathVariable UUID id);
+
+    @PostMapping("/add-comment-to-publication/{id}")
+    void addCommentToPublication(PublicationDTO publicationDTO, CommentDTO commentDTO, UserDTO userDTO);
 }

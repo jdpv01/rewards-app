@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.web.api;
 
+import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 import co.eficacia.com.rewardsapp.web.dto.PromotionDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,4 +24,8 @@ public interface PromotionAPI {
 
     @DeleteMapping("/delete-promotion/{id}")
     boolean deletePromotion(@PathVariable UUID id);
+
+    @GetMapping("/search-promotions-by-name")
+    List<Promotion> searchPromotion(String line);
+
 }

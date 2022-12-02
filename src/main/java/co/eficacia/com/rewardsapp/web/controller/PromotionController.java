@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
+import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 import co.eficacia.com.rewardsapp.web.api.PromotionAPI;
 import co.eficacia.com.rewardsapp.web.dto.PromotionDTO;
 import co.eficacia.com.rewardsapp.mapper.PromotionMapper;
@@ -41,5 +42,10 @@ public class PromotionController implements PromotionAPI {
     @Override
     public boolean deletePromotion(UUID id) {
         return promotionService.deletePromotion(id);
+    }
+
+    @Override
+    public List<Promotion> searchPromotion(String line) {
+        return promotionService.searchPromotion(line);
     }
 }

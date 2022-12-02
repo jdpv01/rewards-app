@@ -1,12 +1,16 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PublicationErrorCode;
+import co.eficacia.com.rewardsapp.persistance.model.Comment;
+import co.eficacia.com.rewardsapp.persistance.model.User;
+import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
 import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
 import co.eficacia.com.rewardsapp.persistance.model.Publication;
 import co.eficacia.com.rewardsapp.persistance.repository.PublicationRepository;
 import co.eficacia.com.rewardsapp.service.PublicationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,9 @@ import java.util.stream.StreamSupport;
 public class PublicationServiceImpl implements PublicationService {
 
     private final PublicationRepository publicationRepository;
+
+    @Autowired
+    private AccumulatedTransactionService accumulatedTransactionService;
 
     @Override
     public Publication createPublication(Publication publication) {
@@ -56,5 +63,13 @@ public class PublicationServiceImpl implements PublicationService {
             return true;
         }
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+    }
+
+    @Override
+    public void addCommentToPublication(Publication publication, Comment comment, User user) {
+        comment.setUser(user);
+        accumulatedTransactionService.addTransactionComment(user, publication, comment);
+        publication.getCommentList().add(comment);
+        publicationRepository.save(publication);
     }
 }

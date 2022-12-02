@@ -1,9 +1,13 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
+import co.eficacia.com.rewardsapp.mapper.CommentMapper;
+import co.eficacia.com.rewardsapp.mapper.UserMapper;
 import co.eficacia.com.rewardsapp.web.api.PublicationAPI;
+import co.eficacia.com.rewardsapp.web.dto.CommentDTO;
 import co.eficacia.com.rewardsapp.web.dto.PublicationDTO;
 import co.eficacia.com.rewardsapp.mapper.PublicationMapper;
 import co.eficacia.com.rewardsapp.service.PublicationService;
+import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +20,12 @@ import java.util.stream.Collectors;
 public class PublicationController implements PublicationAPI {
 
     private final PublicationService publicationService;
+
     private final PublicationMapper publicationMapper;
+
+    private final CommentMapper commentMapper;
+
+    private final UserMapper userMapper;
 
     @Override
     public PublicationDTO createPublication(PublicationDTO publicationDTO) {
@@ -42,4 +51,10 @@ public class PublicationController implements PublicationAPI {
     public boolean deletePublication(UUID id) {
         return publicationService.deletePublication(id);
     }
+
+    @Override
+    public void addCommentToPublication(PublicationDTO publicationDTO, CommentDTO commentDTO, UserDTO userDTO) {
+        publicationService.addCommentToPublication(publicationMapper.fromPublicationDTO(publicationDTO), commentMapper.fromCommentDTO(commentDTO), userMapper.fromUserDTO(userDTO));
+    }
+
 }

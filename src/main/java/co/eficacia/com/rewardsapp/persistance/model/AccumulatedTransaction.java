@@ -18,6 +18,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AccumulatedTransaction {
 
+    public final String PROMOTION = "Promotion";
+
+    public final String PUBLICATION = "Publication";
+
+    public final String SURVEY = "Survey";
+
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;

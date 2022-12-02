@@ -25,7 +25,7 @@ public class Promotion {
     private UUID id;
 
     @ManyToMany(mappedBy = "promotionList")
-    private List<Invoice> invoiceList;
+    private List<Invoice>  invoiceList;
 
     private String name;
 
@@ -35,9 +35,9 @@ public class Promotion {
 
     private int offeredPoints;
 
-    private ZonedDateTime validityDate;
-
     private int availableQuantity;
+
+    private ZonedDateTime validityDate;
 
     @PrePersist
     public void generateId(){

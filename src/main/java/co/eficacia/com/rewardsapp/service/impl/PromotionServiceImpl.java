@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,7 +38,14 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public List<Promotion> getPromotions() {
-        return StreamSupport.stream(promotionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Promotion> listPromotion = StreamSupport.stream(promotionRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Promotion> promotions = new ArrayList<>();
+        for (Promotion promotion : listPromotion) {
+            if (promotion.getAvailableQuantity() > 0) {
+                promotions.add(promotion);
+            }
+        }
+        return promotions;
     }
 
     @Override
@@ -56,5 +64,18 @@ public class PromotionServiceImpl implements PromotionService {
             return true;
         }
         throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+    }
+
+    @Override
+    public List<Promotion> searchPromotion(String line) {
+        List<Promotion> listPromotion = getPromotions();
+        List<Promotion> listFound = new ArrayList<>();
+        //stream
+        for (Promotion  promotion : listPromotion) {
+            if (promotion.getName().equals(line)) {
+                listFound.add(promotion);
+            }
+        }
+        return listFound;
     }
 }

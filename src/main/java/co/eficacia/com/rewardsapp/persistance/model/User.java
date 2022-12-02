@@ -1,5 +1,8 @@
 package co.eficacia.com.rewardsapp.persistance.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
@@ -8,6 +11,8 @@ import java.util.*;
 
 @Data
 @Entity
+@Getter
+@Setter
 @Table(name = "`user`", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Builder
 @AllArgsConstructor
@@ -40,6 +45,12 @@ public class User {
     private String email;
 
     private String password;
+
+    private int currentPoints;
+
+    private int redeemedPoints;
+
+    private int pendingPoints;
 
     @OneToMany(mappedBy = "user")
     private List<AccumulatedTransaction>  accumulatedTransactionList;

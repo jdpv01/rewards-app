@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.web.dto;
 
-import co.eficacia.com.rewardsapp.validation.CustomAnnotations;
+import co.eficacia.com.rewardsapp.web.validation.CustomAnnotations;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

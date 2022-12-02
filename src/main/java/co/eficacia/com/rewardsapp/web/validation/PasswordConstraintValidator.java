@@ -1,4 +1,4 @@
-package co.eficacia.com.rewardsapp.validation;
+package co.eficacia.com.rewardsapp.web.validation;
 
 import co.eficacia.com.rewardsapp.constant.RegistrationErrorCode;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;

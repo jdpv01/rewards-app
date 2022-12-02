@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Invoice {
+
+    public final String APPROVED = "Aprovado";
+
+    public final String NOT_APPROVED = "No Aprovado";
+    public final String PENDING = "Pendiente";
 
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
@@ -35,13 +41,15 @@ public class Invoice {
             name = "`promotion_invoice`",
             joinColumns = @JoinColumn(name = "promotion_id"),
             inverseJoinColumns = @JoinColumn(name = "invoice_id"))
-    private List<Promotion> promotionList;
+    private List<Promotion>  promotionList;
 
     private String image;
 
     private String code;
 
     private String state;
+
+    private ZonedDateTime timestamp;
 
     @OneToOne(mappedBy = "invoice")
     private AccumulatedTransaction accumulatedTransaction;

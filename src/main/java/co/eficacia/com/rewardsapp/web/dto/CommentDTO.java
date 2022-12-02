@@ -11,19 +11,12 @@ import java.time.ZonedDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublicationDTO {
+public class CommentDTO {
 
-    private String image;
+    private String content;
 
-    private String title;
+    private int rating;
 
-    private String link;
+    private ZonedDateTime timestamp;
 
-    private String description;
-
-    private int availableQuantity;
-
-    private int offeredPoints;
-
-    private ZonedDateTime validityDate;
 }

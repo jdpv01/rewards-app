@@ -1,4 +1,4 @@
-package co.eficacia.com.rewardsapp.validation;
+package co.eficacia.com.rewardsapp.web.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

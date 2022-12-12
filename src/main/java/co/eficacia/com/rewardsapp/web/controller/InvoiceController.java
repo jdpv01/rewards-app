@@ -24,8 +24,8 @@ public class InvoiceController implements InvoiceAPI {
     private final InvoiceMapper invoiceMapper;
 
     @Override
-    public InvoiceDTO createInvoice(MultipartFile invoiceImage, UUID storeId, List<UUID> promotionIdList) {
-        Invoice invoice = invoiceService.createInvoice(invoiceImage, storeId, promotionIdList);
+    public InvoiceDTO createInvoice(MultipartFile invoiceImage, UUID userId, UUID storeId, List<UUID> promotionIdList) {
+        Invoice invoice = invoiceService.createInvoice(invoiceImage, userId, storeId, promotionIdList);
         return getInvoiceDTO(invoice);
     }
 

@@ -41,11 +41,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final PromotionService promotionService;
 
     @Override
-    public Invoice createInvoice(MultipartFile invoiceImage, UUID storeId, List<UUID> promotionIdList) {
+    public Invoice createInvoice(MultipartFile invoiceImage, UUID userId, UUID storeId, List<UUID> promotionIdList) {
         Invoice invoice = new Invoice();
 
         //One-To-Many User-Invoice relation
-        User user = userService.getSignedInUser();
+        User user = userService.getUser(userId);
         user.getInvoiceList().add(invoice);
         invoice.setUser(user);
 

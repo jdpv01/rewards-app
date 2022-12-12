@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface InvoiceService {
 
-    Invoice createInvoice(MultipartFile multipartFile, UUID storeId, List<UUID> promotionIdList);
+    Invoice createInvoice(MultipartFile multipartFile, UUID userId, UUID storeId, List<UUID> promotionIdList);
 
     Invoice processInvoice(UUID invoiceId, boolean decision);
 

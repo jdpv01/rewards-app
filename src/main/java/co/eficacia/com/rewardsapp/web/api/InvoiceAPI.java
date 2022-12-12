@@ -14,7 +14,7 @@ public interface InvoiceAPI {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create-invoice")
-    InvoiceDTO createInvoice(@RequestPart("invoiceImage") MultipartFile invoiceImage, @RequestParam UUID storeId, @RequestParam("promotionIdList") List<UUID> promotionIdList);
+    InvoiceDTO createInvoice(@RequestPart("invoiceImage") MultipartFile invoiceImage, @RequestParam UUID userId, @RequestParam UUID storeId, @RequestParam("promotionIdList") List<UUID> promotionIdList);
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/process-invoice")

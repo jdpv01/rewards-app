@@ -80,6 +80,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         if(decision){
             invoice.setState(Invoice.APPROVED);
             userService.accumulatePoints(invoice.getUser(), invoice);
+            invoice.getPromotionList().forEach(promotionService::reducePromotionQuantity);
         }else{
             invoice.setState(Invoice.REJECTED);
         }

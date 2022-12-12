@@ -7,12 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PromotionDTO {
+
+    private UUID id;
 
     private String name;
 
@@ -22,7 +25,7 @@ public class PromotionDTO {
 
     private int offeredPoints;
 
-    private ZonedDateTime validityDate;
+    private int availableQuantity;
 
-    private List<Invoice> invoiceList;
+    private ZonedDateTime validityDate;
 }

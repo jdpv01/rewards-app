@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.service;
 
+import co.eficacia.com.rewardsapp.persistance.model.Invoice;
 import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface PromotionService {
     Promotion updatePromotion(Promotion promotion);
 
     boolean deletePromotion(UUID id);
+
+    void reducePromotionQuantity(Promotion promotion);
 }

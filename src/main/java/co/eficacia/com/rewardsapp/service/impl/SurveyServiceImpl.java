@@ -5,7 +5,7 @@ import co.eficacia.com.rewardsapp.persistance.model.Survey;
 import co.eficacia.com.rewardsapp.persistance.repository.SurveyRepository;
 import co.eficacia.com.rewardsapp.service.SurveyService;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class SurveyServiceImpl implements SurveyService {
         Optional<Survey> optionalSurvey = surveyRepository.findById(id);
         if(optionalSurvey.isPresent())
             return optionalSurvey.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SurveyServiceImpl implements SurveyService {
         Optional<Survey> optionalSurvey = surveyRepository.findById(survey.getId());
         if(optionalSurvey.isPresent())
             return surveyRepository.save(survey);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SurveyServiceImpl implements SurveyService {
             surveyRepository.delete(optionalSurvey.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(SurveyErrorCode.CODE_01, SurveyErrorCode.CODE_01.getMessage()));
     }
 
     @Override

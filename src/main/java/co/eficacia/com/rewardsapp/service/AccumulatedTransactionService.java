@@ -16,11 +16,4 @@ public interface AccumulatedTransactionService {
     AccumulatedTransaction updateAccumulatedTransaction(AccumulatedTransaction accumulatedTransaction);
 
     boolean deleteAccumulatedTransaction(UUID id);
-
-    User currentUserPoint(User user);
-
-    //Publication
-    AccumulatedTransaction addTransactionComment(User user, Publication publication, Comment comment);
-
-    AccumulatedTransaction addTransactionSurvey(User user, Survey survey);
 }

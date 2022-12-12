@@ -1,9 +1,9 @@
 package co.eficacia.com.rewardsapp.persistance.model;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,12 +11,11 @@ import java.util.*;
 
 @Data
 @Entity
-@Getter
-@Setter
 @Table(name = "`user`", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 public class User {
 
     @Id
@@ -44,13 +43,12 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private int currentPoints;
 
     private int redeemedPoints;
-
-    private int pendingPoints;
 
     @OneToMany(mappedBy = "user")
     private List<AccumulatedTransaction>  accumulatedTransactionList;
@@ -58,7 +56,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<RedeemedTransaction> redeemedTransactionList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Invoice> invoiceList;
 
     @OneToMany(mappedBy = "user")

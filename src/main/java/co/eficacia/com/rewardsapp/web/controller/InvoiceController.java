@@ -1,12 +1,14 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
 import co.eficacia.com.rewardsapp.mapper.InvoiceMapper;
+import co.eficacia.com.rewardsapp.persistance.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 import co.eficacia.com.rewardsapp.service.InvoiceService;
 import co.eficacia.com.rewardsapp.web.api.InvoiceAPI;
 import co.eficacia.com.rewardsapp.web.dto.InvoiceDTO;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +23,28 @@ public class InvoiceController implements InvoiceAPI {
     private final InvoiceMapper invoiceMapper;
 
     @Override
-    public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.createInvoice(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
+    public InvoiceDTO createInvoice(MultipartFile invoiceImage, UUID storeId, List<UUID> promotionIdList) {
+        Invoice invoice = invoiceService.createInvoice(invoiceImage, storeId, promotionIdList);
+        return getInvoiceDTO(invoice);
+    }
+
+    @Override
+    public InvoiceDTO processInvoice(UUID invoiceId, boolean decision) {
+        Invoice invoice = invoiceService.processInvoice(invoiceId, decision);
+        return getInvoiceDTO(invoice);
+    }
+
+    private InvoiceDTO getInvoiceDTO(Invoice invoice) {
+        InvoiceDTO invoiceDTO = new InvoiceDTO();
+        invoiceDTO.setId(invoice.getId());
+        invoiceDTO.setStoreName(invoice.getStore().getName());
+        invoiceDTO.setState(invoice.getState());
+        invoiceDTO.setPendingPoints(invoice.getPendingPoints());
+        List<String> promotionNameList =
+                invoice.getPromotionList().stream().map(Promotion::getName).collect(Collectors.toList());
+        invoiceDTO.setPromotionNameList(promotionNameList);
+        invoiceDTO.setTimestamp(invoice.getTimestamp());
+        return invoiceDTO;
     }
 
     @Override
@@ -31,35 +53,17 @@ public class InvoiceController implements InvoiceAPI {
     }
 
     @Override
-    public List<InvoiceDTO> getPendingInvoices() {
-        return invoiceService.getPendingInvoices().stream().map(invoiceMapper::fromInvoice).collect(Collectors.toList());
+    public List<InvoiceDTO> getInvoices() {
+        return invoiceService.getInvoices().stream().map(invoiceMapper::fromInvoice).collect(Collectors.toList());
     }
 
     @Override
-    public InvoiceDTO updateInvoice(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.updateInvoice(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
+    public InvoiceDTO updateInvoice(UUID id, InvoiceDTO invoiceDTO) {
+        return invoiceMapper.fromInvoice(invoiceService.updateInvoice(invoiceMapper.fromInvoiceDTO(id, invoiceDTO)));
     }
 
     @Override
     public boolean deleteInvoice(UUID id) {
         return invoiceService.deleteInvoice(id);
     }
-
-    @Override
-    public InvoiceDTO approvedTransaction(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.approveTransaction(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
-    }
-
-    @Override
-    public InvoiceDTO noApprovedTransactions(InvoiceDTO invoiceDTO) {
-        return invoiceMapper.fromInvoice(invoiceService.noApproveTransactions(invoiceMapper.fromInvoiceDTO(invoiceDTO)));
-    }
-
-    @Override
-    public Integer currentPendingPointsUser(UserDTO userDTO) {
-        return invoiceService.currentPendingPointsUser(userDTO);
-    }
-
-
-
 }

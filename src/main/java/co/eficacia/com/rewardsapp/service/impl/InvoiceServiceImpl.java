@@ -1,51 +1,89 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.InvoiceErrorCode;
-import co.eficacia.com.rewardsapp.mapper.InvoiceMapper;
-import co.eficacia.com.rewardsapp.mapper.UserMapper;
-import co.eficacia.com.rewardsapp.persistance.model.*;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
-import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.persistance.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.Promotion;
+import co.eficacia.com.rewardsapp.persistance.model.Store;
+import co.eficacia.com.rewardsapp.persistance.model.User;
 import co.eficacia.com.rewardsapp.persistance.repository.InvoiceRepository;
-import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
-import co.eficacia.com.rewardsapp.service.InvoiceService;
-import co.eficacia.com.rewardsapp.service.PromotionService;
-import co.eficacia.com.rewardsapp.service.UserService;
+import co.eficacia.com.rewardsapp.service.*;
+import co.eficacia.com.rewardsapp.utils.FileHandler;
+import co.eficacia.com.rewardsapp.utils.Timestamp;
+import co.eficacia.com.rewardsapp.web.error.ObjectError;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class InvoiceServiceImpl implements InvoiceService {
 
+    public final static String INVOICES_FOLDER = "invoices/";
+
     private final InvoiceRepository invoiceRepository;
 
-    @Autowired
-    private AccumulatedTransactionService accumulatedTransactionService;
+    private final UserService userService;
 
-    @Autowired
-    private PromotionService promotionService;
+    private final StoreService storeService;
 
-    @Autowired
-    private UserService userDetailsService;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private InvoiceMapper invoiceMapper;
+    private final PromotionService promotionService;
 
     @Override
-    public Invoice createInvoice(Invoice invoice) {
-        invoice.setState(invoice.PENDING);
+    public Invoice createInvoice(MultipartFile invoiceImage, UUID storeId, List<UUID> promotionIdList) {
+        Invoice invoice = new Invoice();
+
+        //One-To-Many User-Invoice relation
+        User user = userService.getSignedInUser();
+        user.getInvoiceList().add(invoice);
+        invoice.setUser(user);
+
+        //One-To-Many Store-Invoice relation
+        Store store = storeService.getStore(storeId);
+        store.getInvoiceList().add(invoice);
+        invoice.setStore(store);
+
+        //Many-To-Many promotion-invoice relation
+        List<Promotion> promotionList = new ArrayList<>();
+        promotionIdList.forEach(id -> promotionList.add(promotionService.getPromotion(id)));
+        promotionList.forEach(promotion -> promotion.getInvoiceList().add(invoice));
+        invoice.setPromotionList(promotionList);
+
+        invoice.setState(Invoice.PENDING);
+        invoice.setPendingPoints(getTotalOfferedPoints(promotionList));
+        invoice.setTimestamp(ZonedDateTime.now(Timestamp.ZONE_ID));
+        invoice.setImage(FileHandler.upload(invoiceImage, INVOICES_FOLDER).toString());
         return invoiceRepository.save(invoice);
+    }
+
+    private Integer getTotalOfferedPoints(List<Promotion> promotionList) {
+        int totalOfferedPoints = 0;
+        for (Promotion promotion : promotionList) {
+            totalOfferedPoints += promotion.getOfferedPoints();
+        }
+        return totalOfferedPoints;
+    }
+
+    public Invoice processInvoice(UUID invoiceId, boolean decision) {
+        Invoice invoice = getInvoice(invoiceId);
+        if(decision){
+            invoice.setState(Invoice.APPROVED);
+            userService.accumulatePoints(invoice.getUser(), invoice);
+        }else{
+            invoice.setState(Invoice.REJECTED);
+        }
+        return invoice;
     }
 
     @Override
@@ -53,19 +91,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
         if (optionalInvoice.isPresent())
             return optionalInvoice.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
     }
 
     @Override
-    public List<Invoice> getPendingInvoices() {
-        List<Invoice> invoices = StreamSupport.stream(invoiceRepository.findAll().spliterator(), false).collect(Collectors.toList());
-        List<Invoice> aux = new ArrayList<>();
-        for (Invoice invoice : invoices) {
-            if (invoice.getState().equals(invoice.PENDING)) {
-                aux.add(invoice);
-            }
-        }
-        return aux;
+    public List<Invoice> getInvoices() {
+        return StreamSupport.stream(invoiceRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     @Override
@@ -73,7 +104,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(Invoice.getId());
         if (optionalInvoice.isPresent())
             return invoiceRepository.save(Invoice);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -83,64 +114,6 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceRepository.delete(optionalInvoice.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
-    }
-
-    @Override                       //List<Promotion
-    public Invoice approveTransaction(Invoice invoice) {
-        List<Promotion> listPromotion = invoice.getPromotionList();
-        for (Promotion promotion : listPromotion) {
-            promotion.setAvailableQuantity(promotion.getAvailableQuantity() - 1);
-            AccumulatedTransaction transaction = new AccumulatedTransaction();
-            transaction = updateDataTransaction(transaction, invoice, promotion);
-            accumulatedTransactionService.createAccumulatedTransaction(transaction);
-            promotionService.updatePromotion(promotion);
-        }
-        invoice.setState(invoice.APPROVED);
-        invoiceRepository.save(invoice);
-        return invoice;
-    }
-
-    public AccumulatedTransaction updateDataTransaction(AccumulatedTransaction transaction,Invoice invoice, Promotion promotion) {
-        transaction.setInvoice(invoice);
-        transaction.setSource(transaction.PROMOTION);
-        transaction.setAccumulatedPoints(promotion.getOfferedPoints());
-        transaction.setProductQuantity(1);
-        transaction.setUser(invoice.getUser());
-        transaction.setTimestamp(invoice.getTimestamp());
-        return transaction;
-    }
-
-    @Override
-    public Invoice noApproveTransactions(Invoice invoice) {
-        invoice.setState(invoice.NOT_APPROVED);
-        invoiceRepository.save(invoice);
-        return invoice;
-    }
-
-    @Override
-    public Integer currentPendingPointsUser(UserDTO userDTO) {
-
-        User user = userMapper.fromUserDTO(userDTO);
-
-        List<Invoice> invoices = StreamSupport.stream(invoiceRepository.findAll().spliterator(), false).collect(Collectors.toList());
-
-        for (Invoice invoice : invoices) {
-
-            if (invoice.getState().equals(invoice.PENDING) && invoice.getUser().getId() == user.getId()) {
-
-                List<Promotion> listPromotion = invoice.getPromotionList();
-
-                for (Promotion promotion : listPromotion) {
-
-                    user.setPendingPoints(user.getPendingPoints() + promotion.getOfferedPoints());
-
-                }
-            }
-        }
-
-        userDetailsService.updateUser(user);
-
-        return user.getPendingPoints();
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(InvoiceErrorCode.CODE_01, InvoiceErrorCode.CODE_01.getMessage()));
     }
 }

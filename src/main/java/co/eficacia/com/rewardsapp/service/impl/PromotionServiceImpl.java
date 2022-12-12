@@ -2,7 +2,7 @@ package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PromotionErrorCode;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 import co.eficacia.com.rewardsapp.persistance.repository.PromotionRepository;
 import co.eficacia.com.rewardsapp.service.PromotionService;
@@ -21,6 +21,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class PromotionServiceImpl implements PromotionService {
 
+    public final static String PROMOTIONS_FOLDER = "promotions/";
     private final PromotionRepository promotionRepository;
 
     @Override
@@ -33,7 +34,7 @@ public class PromotionServiceImpl implements PromotionService {
         Optional<Promotion> optionalPromotion = promotionRepository.findById(id);
         if(optionalPromotion.isPresent())
             return optionalPromotion.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -53,7 +54,7 @@ public class PromotionServiceImpl implements PromotionService {
         Optional<Promotion> optionalPromotion = promotionRepository.findById(promotion.getId());
         if(optionalPromotion.isPresent())
             return promotionRepository.save(promotion);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -63,19 +64,6 @@ public class PromotionServiceImpl implements PromotionService {
             promotionRepository.delete(optionalPromotion.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
-    }
-
-    @Override
-    public List<Promotion> searchPromotion(String line) {
-        List<Promotion> listPromotion = getPromotions();
-        List<Promotion> listFound = new ArrayList<>();
-        //stream
-        for (Promotion  promotion : listPromotion) {
-            if (promotion.getName().equals(line)) {
-                listFound.add(promotion);
-            }
-        }
-        return listFound;
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PromotionErrorCode.CODE_01, PromotionErrorCode.CODE_01.getMessage()));
     }
 }

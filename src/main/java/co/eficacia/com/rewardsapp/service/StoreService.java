@@ -11,6 +11,8 @@ public interface StoreService {
 
     Store getStore(UUID id);
 
+    Store searchStoreByName(String name);
+
     List<Store> getStores();
 
     Store updateStore(Store store);

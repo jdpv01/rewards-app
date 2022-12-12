@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GlobalException extends RuntimeException {
+public class CustomException extends RuntimeException {
 
     private HttpStatus httpStatus;
     private ObjectError objectError;

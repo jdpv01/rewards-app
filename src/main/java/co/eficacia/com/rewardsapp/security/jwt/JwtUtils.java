@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.security.jwt;
 
-import co.eficacia.com.rewardsapp.service.impl.UserDetailsImpl;
+import co.eficacia.com.rewardsapp.persistance.model.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

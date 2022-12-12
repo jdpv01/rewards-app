@@ -52,20 +52,4 @@ public class AccumulatedTransactionController implements AccumulatedTransactionA
     public boolean deleteAccumulatedTransaction(UUID id) {
         return accumulatedTransactionservice.deleteAccumulatedTransaction(id);
     }
-
-    @Override
-    public UserDTO currentUserPoint(UserDTO userDTO) {
-        return userMapper.fromUser(accumulatedTransactionservice.currentUserPoint(userMapper.fromUserDTO(userDTO)));
-    }
-
-    @Override
-    public void addTransactionComment(UserDTO userDTO, PublicationDTO publicationDTO, CommentDTO commentDTO) {
-        accumulatedTransactionservice.addTransactionComment(userMapper.fromUserDTO(userDTO), publicationMapper.fromPublicationDTO(publicationDTO) ,commentMapper.fromCommentDTO(commentDTO));
-    }
-
-    @Override
-    public void addTransactionSurvey(UserDTO userDTO, SurveyDTO surveyDTO) {
-        accumulatedTransactionservice.addTransactionSurvey(userMapper.fromUserDTO(userDTO), surveyMapper.fromSurveyDTO(surveyDTO));
-    }
-
 }

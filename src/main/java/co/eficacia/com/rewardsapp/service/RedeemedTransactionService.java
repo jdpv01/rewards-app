@@ -18,6 +18,4 @@ public interface RedeemedTransactionService {
     RedeemedTransaction updateRedeemedTransaction(RedeemedTransaction redeemedTransaction);
 
     boolean deleteRedeemedTransaction(UUID id);
-
-    Integer redeemedCurrentPointsUser(User user);
 }

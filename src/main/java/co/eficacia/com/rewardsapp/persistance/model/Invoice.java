@@ -19,10 +19,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Invoice {
 
-    public final String APPROVED = "Aprovado";
-
-    public final String NOT_APPROVED = "No Aprovado";
-    public final String PENDING = "Pendiente";
+    public static final String APPROVED = "Aprovado";
+    public static final String REJECTED = "Rechazado";
+    public static final String PENDING = "Pendiente";
 
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
@@ -45,9 +44,12 @@ public class Invoice {
 
     private String image;
 
+    @Column(unique=true)
     private String code;
 
     private String state;
+
+    private Integer pendingPoints;
 
     private ZonedDateTime timestamp;
 

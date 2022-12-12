@@ -1,12 +1,12 @@
 package co.eficacia.com.rewardsapp.web.api;
 
-import co.eficacia.com.rewardsapp.persistance.model.Promotion;
 import co.eficacia.com.rewardsapp.web.dto.PromotionDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/promotions")
 public interface PromotionAPI {
 
@@ -24,8 +24,4 @@ public interface PromotionAPI {
 
     @DeleteMapping("/delete-promotion/{id}")
     boolean deletePromotion(@PathVariable UUID id);
-
-    @GetMapping("/search-promotions-by-name")
-    List<Promotion> searchPromotion(String line);
-
 }

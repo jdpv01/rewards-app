@@ -1,11 +1,7 @@
 package co.eficacia.com.rewardsapp.web.validation;
 
-import co.eficacia.com.rewardsapp.constant.RegistrationErrorCode;
-import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.AuthenticationException;
 import lombok.SneakyThrows;
 import org.passay.*;
-import org.springframework.http.HttpStatus;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -18,9 +14,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<CustomAn
     @SneakyThrows
     public boolean isValid(String password, ConstraintValidatorContext context) {
         final PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(
-                new LengthRule(8, 30)));
-//                new CharacterRule(EnglishCharacterData.UpperCase, 1),
-//                new CharacterRule(EnglishCharacterData.LowerCase, 1)
+                new LengthRule(8, 30),
+                new CharacterRule(EnglishCharacterData.UpperCase, 1),
+                new CharacterRule(EnglishCharacterData.LowerCase, 1)));
 //                new CharacterRule(EnglishCharacterData.Digit, 1),
 //                new CharacterRule(EnglishCharacterData.Special, 1),
 //                new WhitespaceRule()));
@@ -33,6 +29,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<CustomAn
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
-        throw new AuthenticationException(HttpStatus.UNAUTHORIZED, new ObjectError(RegistrationErrorCode.CODE_01, messageTemplate));
+        return false;
     }
 }

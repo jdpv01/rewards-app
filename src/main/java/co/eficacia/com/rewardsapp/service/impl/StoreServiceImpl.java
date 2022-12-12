@@ -2,7 +2,7 @@ package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.StoreErrorCode;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import co.eficacia.com.rewardsapp.persistance.model.Store;
 import co.eficacia.com.rewardsapp.persistance.repository.StoreRepository;
 import co.eficacia.com.rewardsapp.service.StoreService;
@@ -20,6 +20,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
+    public final static String STORES_FOLDER = "stores/";
     private final StoreRepository storeRepository;
 
     @Override
@@ -32,7 +33,12 @@ public class StoreServiceImpl implements StoreService {
         Optional<Store> optionalStore = storeRepository.findById(id);
         if(optionalStore.isPresent())
             return optionalStore.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
+    }
+
+    @Override
+    public Store searchStoreByName(String name) {
+        return storeRepository.searchStoreByName(name).orElseThrow();
     }
 
     @Override
@@ -45,7 +51,7 @@ public class StoreServiceImpl implements StoreService {
         Optional<Store> optionalStore = storeRepository.findById(store.getId());
         if(optionalStore.isPresent())
             return storeRepository.save(store);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -55,6 +61,6 @@ public class StoreServiceImpl implements StoreService {
             storeRepository.delete(optionalStore.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(StoreErrorCode.CODE_01, StoreErrorCode.CODE_01.getMessage()));
     }
 }

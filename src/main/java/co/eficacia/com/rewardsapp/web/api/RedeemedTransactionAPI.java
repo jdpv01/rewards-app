@@ -1,33 +1,27 @@
 package co.eficacia.com.rewardsapp.web.api;
 
 import co.eficacia.com.rewardsapp.web.dto.RedeemedTransactionDTO;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/redeemed-transactions")
 public interface RedeemedTransactionAPI {
 
     @PostMapping("/create-redeemed-transaction")
-    RedeemedTransactionDTO createRedeemedTransaction(RedeemedTransactionDTO redeemedTransactionDTO);
+    RedeemedTransactionDTO createRedeemedTransaction(@RequestBody RedeemedTransactionDTO redeemedTransactionDTO);
 
-    @GetMapping("/get-redeemed-transaction")
-    RedeemedTransactionDTO getRedeemedTransaction(UUID id);
+    @GetMapping("/get-redeemed-transaction/{id}")
+    RedeemedTransactionDTO getRedeemedTransaction(@PathVariable UUID id);
 
     @GetMapping("/get-all-redeemed-transactions")
     List<RedeemedTransactionDTO> getRedeemedTransactions();
 
-    @PutMapping("/update-redeemed-transaction")
-    RedeemedTransactionDTO updateRedeemedTransaction(RedeemedTransactionDTO redeemedTransactionDTO);
+    @PutMapping("/update-redeemed-transaction/{id}")
+    RedeemedTransactionDTO updateRedeemedTransaction(@PathVariable UUID id, @RequestBody RedeemedTransactionDTO redeemedTransactionDTO);
 
     @GetMapping("/delete-redeemed-transaction/{id}")
-    boolean deleteRedeemedTransaction(UUID id);
-
-    @GetMapping("/redeemed-current-point-user")
-    Integer redeemedCurrentPointsUser(UserDTO userDTO);
+    boolean deleteRedeemedTransaction(@PathVariable UUID id);
 }

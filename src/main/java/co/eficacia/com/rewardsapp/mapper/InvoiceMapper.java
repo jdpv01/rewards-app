@@ -14,5 +14,4 @@ public interface InvoiceMapper {
     Invoice fromInvoiceDTO(UUID id, InvoiceDTO invoiceDTO);
 
     InvoiceDTO fromInvoice(Invoice invoice);
-
 }

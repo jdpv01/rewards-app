@@ -1,13 +1,13 @@
 package co.eficacia.com.rewardsapp.web.dto;
 
-import co.eficacia.com.rewardsapp.persistance.model.AccumulatedTransaction;
-import co.eficacia.com.rewardsapp.persistance.model.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -15,16 +15,15 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class InvoiceDTO {
 
-    private Store store;
+    private UUID id;
 
-    private String image;
-
-    private String code;
+    private String storeName;
 
     private String state;
 
+    private Integer pendingPoints;
+
+    private List<String> promotionNameList;
+
     private ZonedDateTime timestamp;
-
-    private AccumulatedTransaction accumulatedTransaction;
-
 }

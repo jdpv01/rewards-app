@@ -8,7 +8,7 @@ import co.eficacia.com.rewardsapp.persistance.repository.UserRepository;
 import co.eficacia.com.rewardsapp.security.jwt.JwtResponse;
 import co.eficacia.com.rewardsapp.security.jwt.JwtUtils;
 import co.eficacia.com.rewardsapp.security.jwt.MessageResponse;
-import co.eficacia.com.rewardsapp.service.impl.UserDetailsImpl;
+import co.eficacia.com.rewardsapp.persistance.model.UserDetailsImpl;
 import co.eficacia.com.rewardsapp.web.api.AuthAPI;
 import co.eficacia.com.rewardsapp.web.dto.LoginRequestDTO;
 import co.eficacia.com.rewardsapp.web.dto.SignupRequestDTO;

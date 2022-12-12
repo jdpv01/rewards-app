@@ -2,7 +2,7 @@ package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.RewardErrorCode;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import co.eficacia.com.rewardsapp.persistance.model.Reward;
 import co.eficacia.com.rewardsapp.persistance.repository.RewardRepository;
 import co.eficacia.com.rewardsapp.service.RewardService;
@@ -20,6 +20,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class RewardServiceImpl implements RewardService {
 
+    public final static String REWARDS_FOLDER = "rewards/";
     private final RewardRepository rewardRepository;
 
     @Override
@@ -32,7 +33,7 @@ public class RewardServiceImpl implements RewardService {
         Optional<Reward> optionalReward = rewardRepository.findById(id);
         if(optionalReward.isPresent())
             return optionalReward.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class RewardServiceImpl implements RewardService {
         Optional<Reward> optionalReward = rewardRepository.findById(reward.getId());
         if(optionalReward.isPresent())
             return rewardRepository.save(reward);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -55,6 +56,6 @@ public class RewardServiceImpl implements RewardService {
             rewardRepository.delete(optionalReward.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(RewardErrorCode.CODE_01, RewardErrorCode.CODE_01.getMessage()));
     }
 }

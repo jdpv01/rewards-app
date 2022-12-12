@@ -1,16 +1,12 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PublicationErrorCode;
-import co.eficacia.com.rewardsapp.persistance.model.Comment;
-import co.eficacia.com.rewardsapp.persistance.model.User;
-import co.eficacia.com.rewardsapp.service.AccumulatedTransactionService;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
-import co.eficacia.com.rewardsapp.web.error.exception.GlobalException;
+import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import co.eficacia.com.rewardsapp.persistance.model.Publication;
 import co.eficacia.com.rewardsapp.persistance.repository.PublicationRepository;
 import co.eficacia.com.rewardsapp.service.PublicationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +20,8 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
 
+    public final static String PUBLICATIONS_FOLDER = "publications/";
     private final PublicationRepository publicationRepository;
-
-    @Autowired
-    private AccumulatedTransactionService accumulatedTransactionService;
 
     @Override
     public Publication createPublication(Publication publication) {
@@ -39,7 +33,7 @@ public class PublicationServiceImpl implements PublicationService {
         Optional<Publication> optionalPublication = publicationRepository.findById(id);
         if(optionalPublication.isPresent())
             return optionalPublication.get();
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -52,7 +46,7 @@ public class PublicationServiceImpl implements PublicationService {
         Optional<Publication> optionalPublication = publicationRepository.findById(publication.getId());
         if(optionalPublication.isPresent())
             return publicationRepository.save(publication);
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 
     @Override
@@ -62,14 +56,6 @@ public class PublicationServiceImpl implements PublicationService {
             publicationRepository.delete(optionalPublication.get());
             return true;
         }
-        throw new GlobalException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
-    }
-
-    @Override
-    public void addCommentToPublication(Publication publication, Comment comment, User user) {
-        comment.setUser(user);
-        accumulatedTransactionService.addTransactionComment(user, publication, comment);
-        publication.getCommentList().add(comment);
-        publicationRepository.save(publication);
+        throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(PublicationErrorCode.CODE_01, PublicationErrorCode.CODE_01.getMessage()));
     }
 }

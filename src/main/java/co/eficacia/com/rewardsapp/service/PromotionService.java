@@ -16,6 +16,4 @@ public interface PromotionService {
     Promotion updatePromotion(Promotion promotion);
 
     boolean deletePromotion(UUID id);
-
-    List<Promotion> searchPromotion(String line);
 }

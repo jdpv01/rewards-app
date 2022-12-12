@@ -1,35 +1,38 @@
 package co.eficacia.com.rewardsapp.web.api;
 
 import co.eficacia.com.rewardsapp.web.dto.InvoiceDTO;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
+
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/invoices")
 public interface InvoiceAPI {
-    @PostMapping("/create-invoice")
-    InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO);
 
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/create-invoice")
+    InvoiceDTO createInvoice(@RequestPart("invoiceImage") MultipartFile invoiceImage, @RequestParam UUID storeId, @RequestParam("promotionIdList") List<UUID> promotionIdList);
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/process-invoice")
+    InvoiceDTO processInvoice(@RequestParam UUID invoiceId, @RequestParam boolean decision);
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-invoice/{id}")
     InvoiceDTO getInvoice(@PathVariable UUID id);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all-invoices")
-    List<InvoiceDTO> getPendingInvoices();
+    List<InvoiceDTO> getInvoices();
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update-invoice/{id}")
-    InvoiceDTO updateInvoice(@RequestBody InvoiceDTO invoiceDTO);
+    InvoiceDTO updateInvoice(@PathVariable UUID id, @RequestBody InvoiceDTO invoiceDTO);
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete-invoice/{id}")
-    boolean deleteInvoice(UUID id);
-
-    // no estoy seguro del getMapping y del userId
-    @GetMapping("/get-approved-transaction/{userId}")
-    InvoiceDTO approvedTransaction(@RequestBody InvoiceDTO invoiceDTO);
-
-    @GetMapping("/get-no-approved-transaction/{userId}")
-    InvoiceDTO noApprovedTransactions(@RequestBody InvoiceDTO invoiceDTO);
-
-    @GetMapping("/get-current-pending-point-user/{userId}")
-    Integer currentPendingPointsUser(UserDTO user);
+    boolean deleteInvoice(@PathVariable UUID id);
 }

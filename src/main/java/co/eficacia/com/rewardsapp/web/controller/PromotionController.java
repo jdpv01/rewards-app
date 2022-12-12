@@ -43,9 +43,4 @@ public class PromotionController implements PromotionAPI {
     public boolean deletePromotion(UUID id) {
         return promotionService.deletePromotion(id);
     }
-
-    @Override
-    public List<Promotion> searchPromotion(String line) {
-        return promotionService.searchPromotion(line);
-    }
 }

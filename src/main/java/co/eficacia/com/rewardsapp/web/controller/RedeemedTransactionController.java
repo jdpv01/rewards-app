@@ -1,11 +1,9 @@
 package co.eficacia.com.rewardsapp.web.controller;
 
 import co.eficacia.com.rewardsapp.mapper.RedeemedTransactionMapper;
-import co.eficacia.com.rewardsapp.mapper.UserMapper;
 import co.eficacia.com.rewardsapp.service.RedeemedTransactionService;
 import co.eficacia.com.rewardsapp.web.api.RedeemedTransactionAPI;
 import co.eficacia.com.rewardsapp.web.dto.RedeemedTransactionDTO;
-import co.eficacia.com.rewardsapp.web.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +18,6 @@ public class RedeemedTransactionController implements RedeemedTransactionAPI {
     private final RedeemedTransactionService redeemedTransactionService;
 
     private final RedeemedTransactionMapper redeemedTransactionMapper;
-
-    private final UserMapper userMapper;
 
     @Override
     public RedeemedTransactionDTO createRedeemedTransaction(RedeemedTransactionDTO redeemedTransactionDTO) {
@@ -39,17 +35,12 @@ public class RedeemedTransactionController implements RedeemedTransactionAPI {
     }
 
     @Override
-    public RedeemedTransactionDTO updateRedeemedTransaction(RedeemedTransactionDTO redeemedTransactionDTO) {
-        return redeemedTransactionMapper.fromRedeemedTransaction(redeemedTransactionService.updateRedeemedTransaction(redeemedTransactionMapper.fromRedeemedTransactionDTO(redeemedTransactionDTO)));
+    public RedeemedTransactionDTO updateRedeemedTransaction(UUID id, RedeemedTransactionDTO redeemedTransactionDTO) {
+        return redeemedTransactionMapper.fromRedeemedTransaction(redeemedTransactionService.updateRedeemedTransaction(redeemedTransactionMapper.fromRedeemedTransactionDTO(id, redeemedTransactionDTO)));
     }
 
     @Override
     public boolean deleteRedeemedTransaction(UUID id) {
         return redeemedTransactionService.deleteRedeemedTransaction(id);
-    }
-
-    @Override
-    public Integer redeemedCurrentPointsUser(UserDTO userDTO) {
-        return redeemedTransactionService.redeemedCurrentPointsUser(userMapper.fromUserDTO(userDTO));
     }
 }

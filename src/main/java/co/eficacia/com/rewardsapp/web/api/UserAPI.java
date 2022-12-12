@@ -21,8 +21,8 @@ public interface UserAPI {
     UserDTO createUser(@RequestBody UserDTO userDTO);
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/get-user/{id}")
-    UserDTO getUser(@PathVariable UUID id);
+    @GetMapping("/get-user")
+    UserDTO getUser(@RequestParam UUID id);
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all-users")
@@ -33,6 +33,6 @@ public interface UserAPI {
     UserDTO updateUser(@RequestBody @Valid UserDTO userDTO);
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete-user/{id}")
-    boolean deleteUser(@PathVariable UUID id);
+    @DeleteMapping("/delete-user")
+    boolean deleteUser(@RequestParam UUID id);
 }

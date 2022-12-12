@@ -48,6 +48,8 @@ public class User {
 
     private int currentPoints;
 
+    private int pendingPoints;
+
     private int redeemedPoints;
 
     @OneToMany(mappedBy = "user")

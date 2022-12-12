@@ -1,6 +1,6 @@
 package co.eficacia.com.rewardsapp.mapper;
 
-import co.eficacia.com.rewardsapp.web.dto.RewardDTO;
+import co.eficacia.com.rewardsapp.web.dto.AvailableRewardDTO;
 import co.eficacia.com.rewardsapp.persistance.model.Reward;
 import org.mapstruct.Mapper;
 
@@ -9,9 +9,9 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface RewardMapper {
 
-    Reward fromRewardDTO(RewardDTO rewardDTO);
+    Reward fromRewardDTO(AvailableRewardDTO availableRewardDTO);
 
-    Reward fromRewardDTO(UUID id, RewardDTO rewardDTO);
+    Reward fromRewardDTO(UUID id, AvailableRewardDTO availableRewardDTO);
 
-    RewardDTO fromReward(Reward reward);
+    AvailableRewardDTO fromReward(Reward reward);
 }

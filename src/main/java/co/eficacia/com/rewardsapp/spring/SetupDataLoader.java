@@ -31,12 +31,20 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup)
             return;
-        User user = new User("Juan", "Peláez", "juandpv01@hotmail.com", passwordEncoder.encode("123456Aa"));
-        Set<Role> roleSet = new HashSet<>();
-        Role role = roleRepository.findByName(RoleEnum.ROLE_USER)
+        User admin = new User("Admin", "Admin", "juandpv01@hotmail.com", passwordEncoder.encode("123456Aa"));
+        Set<Role> adminRoleSet = new HashSet<>();
+        Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roleSet.add(role);
-        user.setRoleSet(roleSet);
+        adminRoleSet.add(adminRole);
+        admin.setRoleSet(adminRoleSet);
+        userRepository.save(admin);
+
+        User user = new User("User", "User", "pelaezd86@gmail.com", passwordEncoder.encode("123456Aa"));
+        Set<Role> userRoleSet = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        userRoleSet.add(userRole);
+        user.setRoleSet(userRoleSet);
         userRepository.save(user);
         alreadySetup=true;
     }

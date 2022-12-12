@@ -8,12 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
+
+    private UUID id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String firstName;
@@ -41,6 +44,9 @@ public class UserDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int currentPoints;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private int pendingPoints;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int redeemedPoints;

@@ -63,8 +63,9 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     @Override
     public User getUser(UUID id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent())
+        if(optionalUser.isPresent()){
             return optionalUser.get();
+        }
         throw new CustomException(HttpStatus.NOT_FOUND, new ObjectError(UserErrorCode.CODE_01, UserErrorCode.CODE_01.getMessage()));
     }
 

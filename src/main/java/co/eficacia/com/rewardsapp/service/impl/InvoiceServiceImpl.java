@@ -61,7 +61,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setPromotionList(promotionList);
 
         invoice.setState(Invoice.PENDING);
-        invoice.setPendingPoints(getTotalOfferedPoints(promotionList));
+        int totalOfferedPoints = getTotalOfferedPoints(promotionList);
+        user.setPendingPoints(user.getPendingPoints()+totalOfferedPoints);
+        System.out.println(user.getPendingPoints());
+        invoice.setPendingPoints(totalOfferedPoints);
         invoice.setTimestamp(ZonedDateTime.now(Timestamp.ZONE_ID));
         invoice.setImage(FileHandler.upload(invoiceImage, INVOICES_FOLDER).toString());
         return invoiceRepository.save(invoice);
@@ -77,12 +80,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     public Invoice processInvoice(UUID invoiceId, boolean decision) {
         Invoice invoice = getInvoice(invoiceId);
+        User user = invoice.getUser();
         if(decision){
             invoice.setState(Invoice.APPROVED);
-            userService.accumulatePoints(invoice.getUser(), invoice);
+            userService.accumulatePoints(user, invoice);
             invoice.getPromotionList().forEach(promotionService::reducePromotionQuantity);
+            user.setPendingPoints(user.getPendingPoints()-getTotalOfferedPoints(invoice.getPromotionList()));
         }else{
             invoice.setState(Invoice.REJECTED);
+            user.setPendingPoints(user.getPendingPoints()-getTotalOfferedPoints(invoice.getPromotionList()));
         }
         return invoice;
     }
@@ -98,6 +104,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public List<Invoice> getInvoices() {
         return StreamSupport.stream(invoiceRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Invoice> getUserInvoices(UUID userId) {
+        return userService.getUser(userId).getInvoiceList();
     }
 
     @Override

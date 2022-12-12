@@ -1,6 +1,8 @@
 package co.eficacia.com.rewardsapp.web.api;
 
-import co.eficacia.com.rewardsapp.web.dto.RewardDTO;
+import co.eficacia.com.rewardsapp.web.dto.AvailableRewardDTO;
+import co.eficacia.com.rewardsapp.web.dto.RedeemedRewardDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,18 +12,27 @@ import java.util.UUID;
 @RequestMapping("/rewards")
 public interface RewardAPI {
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create-reward")
-    RewardDTO createReward(@RequestBody RewardDTO rewardDTO);
+    AvailableRewardDTO createReward(@RequestBody AvailableRewardDTO availableRewardDTO);
 
-    @GetMapping("/get-reward/{id}")
-    RewardDTO getReward(@PathVariable UUID id);
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PostMapping("/request-reward")
+    RedeemedRewardDTO requestReward(@RequestParam UUID id);
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @GetMapping("/get-reward")
+    AvailableRewardDTO getReward(@RequestParam UUID id);
+
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/get-all-rewards")
-    List<RewardDTO> getRewards();
+    List<AvailableRewardDTO> getRewards();
 
-    @PutMapping("/update-reward/{id}")
-    RewardDTO updateReward(@PathVariable UUID id, @RequestBody RewardDTO rewardDTO);
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update-reward")
+    AvailableRewardDTO updateReward(@RequestParam UUID id, @RequestBody AvailableRewardDTO availableRewardDTO);
 
-    @DeleteMapping("/delete-reward/{id}")
-    boolean deleteReward(@PathVariable UUID id);
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete-reward")
+    boolean deleteReward(@RequestParam UUID id);
 }

@@ -16,23 +16,27 @@ public interface InvoiceAPI {
     @PostMapping("/create-invoice")
     InvoiceDTO createInvoice(@RequestPart("invoiceImage") MultipartFile invoiceImage, @RequestParam UUID storeId, @RequestParam("promotionIdList") List<UUID> promotionIdList);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/process-invoice")
     InvoiceDTO processInvoice(@RequestParam UUID invoiceId, @RequestParam boolean decision);
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/get-invoice/{id}")
-    InvoiceDTO getInvoice(@PathVariable UUID id);
+    @GetMapping("/get-invoice")
+    InvoiceDTO getInvoice(@RequestParam UUID id);
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all-invoices")
     List<InvoiceDTO> getInvoices();
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update-invoice/{id}")
-    InvoiceDTO updateInvoice(@PathVariable UUID id, @RequestBody InvoiceDTO invoiceDTO);
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @GetMapping("/get-user-invoices")
+    List<InvoiceDTO> getUserInvoices(@RequestParam UUID userId);
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete-invoice/{id}")
-    boolean deleteInvoice(@PathVariable UUID id);
+    @PutMapping("/update-invoice")
+    InvoiceDTO updateInvoice(@RequestParam UUID id, @RequestBody InvoiceDTO invoiceDTO);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete-invoice")
+    boolean deleteInvoice(@RequestParam UUID id);
 }

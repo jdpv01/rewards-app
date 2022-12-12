@@ -1,7 +1,6 @@
 package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.PromotionErrorCode;
-import co.eficacia.com.rewardsapp.persistance.model.Invoice;
 import co.eficacia.com.rewardsapp.web.error.ObjectError;
 import co.eficacia.com.rewardsapp.web.error.exception.CustomException;
 import co.eficacia.com.rewardsapp.persistance.model.Promotion;
@@ -73,6 +72,7 @@ public class PromotionServiceImpl implements PromotionService {
         if(promotion.getAvailableQuantity() >= 1){
             promotion.setAvailableQuantity(promotion.getAvailableQuantity()-1);
         }else{
+            promotion.setInvoiceList(null);
             deletePromotion(promotion.getId());
         }
     }

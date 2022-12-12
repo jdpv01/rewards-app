@@ -55,6 +55,11 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/auth/**").permitAll()
                 .antMatchers("/users/**").permitAll()
+                .antMatchers("/promotions/**").permitAll()
+                .antMatchers("/publications/**").permitAll()
+                .antMatchers("/rewards/**").permitAll()
+                .antMatchers("/stores/**").permitAll()
+                .antMatchers("/surveys/**").permitAll()
                 .antMatchers("/invoices/**").permitAll().anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

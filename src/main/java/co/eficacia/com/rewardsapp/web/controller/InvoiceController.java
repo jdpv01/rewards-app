@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,6 +56,13 @@ public class InvoiceController implements InvoiceAPI {
     @Override
     public List<InvoiceDTO> getInvoices() {
         return invoiceService.getInvoices().stream().map(invoiceMapper::fromInvoice).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InvoiceDTO> getUserInvoices(UUID userId) {
+        List<InvoiceDTO> invoiceDTOList = new ArrayList<>();
+        invoiceService.getUserInvoices(userId).forEach(invoice -> invoiceDTOList.add(getInvoiceDTO(invoice)));
+        return invoiceDTOList;
     }
 
     @Override

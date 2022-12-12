@@ -7,7 +7,9 @@ import lombok.Getter;
 @Getter
 public enum RewardErrorCode {
 
-    CODE_01("Reward not found");
+    CODE_01("Reward not found"),
+
+    CODE_02("No tiene puntos suficientes");
 
     private final String message;
 }

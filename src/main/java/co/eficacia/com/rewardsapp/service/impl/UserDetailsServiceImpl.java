@@ -2,6 +2,7 @@ package co.eficacia.com.rewardsapp.service.impl;
 
 import co.eficacia.com.rewardsapp.constant.UserErrorCode;
 import co.eficacia.com.rewardsapp.persistance.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.Reward;
 import co.eficacia.com.rewardsapp.persistance.model.User;
 import co.eficacia.com.rewardsapp.persistance.model.UserDetailsImpl;
 import co.eficacia.com.rewardsapp.persistance.repository.UserRepository;
@@ -93,7 +94,12 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void accumulatePoints(User user, Invoice invoice){
+    public void accumulatePoints(User user, Invoice invoice) {
         user.setCurrentPoints(user.getCurrentPoints()+invoice.getPendingPoints());
+    }
+
+    @Override
+    public void spendPoints(User user, Reward reward) {
+        user.setCurrentPoints(user.getCurrentPoints()-reward.getRequiredPoints());
     }
 }

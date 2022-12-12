@@ -1,6 +1,7 @@
 package co.eficacia.com.rewardsapp.service;
 
 import co.eficacia.com.rewardsapp.persistance.model.Invoice;
+import co.eficacia.com.rewardsapp.persistance.model.Reward;
 import co.eficacia.com.rewardsapp.persistance.model.User;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface UserService {
     boolean deleteUser(UUID id);
 
     void accumulatePoints(User user, Invoice invoice);
+
+    void spendPoints(User user, Reward reward);
 }

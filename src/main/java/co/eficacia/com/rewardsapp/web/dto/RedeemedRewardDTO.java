@@ -1,5 +1,6 @@
 package co.eficacia.com.rewardsapp.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,10 +24,4 @@ public class RedeemedRewardDTO {
     private String code;
 
     private String image;
-
-    private int availableQuantity;
-
-    private int requiredPoints;
-
-    private ZonedDateTime validityDate;
 }

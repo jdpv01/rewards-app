@@ -16,9 +16,9 @@ public interface RewardAPI {
     @PostMapping("/create-reward")
     AvailableRewardDTO createReward(@RequestBody AvailableRewardDTO availableRewardDTO);
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/request-reward")
-    RedeemedRewardDTO requestReward(@RequestParam UUID id);
+    RedeemedRewardDTO requestReward(@RequestParam UUID userId, @RequestParam UUID rewardId);
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/get-reward")

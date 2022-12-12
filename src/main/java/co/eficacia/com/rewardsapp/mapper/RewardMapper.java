@@ -2,6 +2,7 @@ package co.eficacia.com.rewardsapp.mapper;
 
 import co.eficacia.com.rewardsapp.web.dto.AvailableRewardDTO;
 import co.eficacia.com.rewardsapp.persistance.model.Reward;
+import co.eficacia.com.rewardsapp.web.dto.RedeemedRewardDTO;
 import org.mapstruct.Mapper;
 
 import java.util.UUID;
@@ -13,5 +14,7 @@ public interface RewardMapper {
 
     Reward fromRewardDTO(UUID id, AvailableRewardDTO availableRewardDTO);
 
-    AvailableRewardDTO fromReward(Reward reward);
+    AvailableRewardDTO fromRewardToAvailableRewardDTO(Reward reward);
+
+    RedeemedRewardDTO fromRewardToRedeemedRewardDTO(Reward reward);
 }

@@ -11,9 +11,13 @@ public interface RewardService {
 
     Reward getReward(UUID id);
 
+    Reward requestReward(UUID userId, UUID rewardId);
+
     List<Reward> getRewards();
 
     Reward updateReward(Reward reward);
 
     boolean deleteReward(UUID id);
+
+    void reduceRewardQuantity(Reward reward);
 }

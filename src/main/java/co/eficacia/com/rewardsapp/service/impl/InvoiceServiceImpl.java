@@ -63,7 +63,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setState(Invoice.PENDING);
         int totalOfferedPoints = getTotalOfferedPoints(promotionList);
         user.setPendingPoints(user.getPendingPoints()+totalOfferedPoints);
-        System.out.println(user.getPendingPoints());
         invoice.setPendingPoints(totalOfferedPoints);
         invoice.setTimestamp(ZonedDateTime.now(Timestamp.ZONE_ID));
         invoice.setImage(FileHandler.upload(invoiceImage, INVOICES_FOLDER).toString());

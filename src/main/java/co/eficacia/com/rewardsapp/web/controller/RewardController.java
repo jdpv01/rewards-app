@@ -22,27 +22,27 @@ public class RewardController implements RewardAPI {
 
     @Override
     public AvailableRewardDTO createReward(AvailableRewardDTO availableRewardDTO) {
-        return rewardMapper.fromReward(rewardService.createReward(rewardMapper.fromRewardDTO(availableRewardDTO)));
+        return rewardMapper.fromRewardToAvailableRewardDTO(rewardService.createReward(rewardMapper.fromRewardDTO(availableRewardDTO)));
     }
 
     @Override
-    public RedeemedRewardDTO requestReward(@RequestParam UUID id) {
-        return null;
+    public RedeemedRewardDTO requestReward(@RequestParam UUID userId, @RequestParam UUID rewardId) {
+        return rewardMapper.fromRewardToRedeemedRewardDTO(rewardService.requestReward(userId, rewardId));
     }
 
     @Override
     public AvailableRewardDTO getReward(UUID id) {
-        return rewardMapper.fromReward(rewardService.getReward(id));
+        return rewardMapper.fromRewardToAvailableRewardDTO(rewardService.getReward(id));
     }
 
     @Override
     public List<AvailableRewardDTO> getRewards() {
-        return rewardService.getRewards().stream().map(rewardMapper::fromReward).collect(Collectors.toList());
+        return rewardService.getRewards().stream().map(rewardMapper::fromRewardToAvailableRewardDTO).collect(Collectors.toList());
     }
 
     @Override
     public AvailableRewardDTO updateReward(UUID id, AvailableRewardDTO availableRewardDTO) {
-        return rewardMapper.fromReward(rewardService.updateReward(rewardMapper.fromRewardDTO(id, availableRewardDTO)));
+        return rewardMapper.fromRewardToAvailableRewardDTO(rewardService.updateReward(rewardMapper.fromRewardDTO(id, availableRewardDTO)));
     }
 
     @Override

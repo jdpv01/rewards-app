@@ -20,7 +20,7 @@ public interface UserAPI {
     @PostMapping("/create-user")
     UserDTO createUser(@RequestBody UserDTO userDTO);
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/get-user")
     UserDTO getUser(@RequestParam UUID id);
 

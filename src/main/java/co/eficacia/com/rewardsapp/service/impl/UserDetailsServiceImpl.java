@@ -101,5 +101,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     @Override
     public void spendPoints(User user, Reward reward) {
         user.setCurrentPoints(user.getCurrentPoints()-reward.getRequiredPoints());
+        user.setRedeemedPoints(user.getRedeemedPoints()+reward.getRequiredPoints());
     }
 }
